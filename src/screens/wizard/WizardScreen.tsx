@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
-import { AnswerCard, Button } from '../../components/ui';
+import { AnswerCard } from '../../components/ui';
 import { useLocalization } from '../../i18n';
 import type { Mode } from '../../types';
 import { Volume2 } from 'lucide-react';

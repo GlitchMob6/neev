@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
-import { AnswerCard, Button } from '../../components/ui';
+import { AnswerCard } from '../../components/ui';
 import { useLocalization } from '../../i18n';
 import type { Mode, SchemeDiscoveryAnswers } from '../../types';
 
