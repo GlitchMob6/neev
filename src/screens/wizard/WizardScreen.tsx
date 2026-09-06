@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
-import { AnswerCard } from '../../components/ui';
+import { AnswerCard, Button } from '../../components/ui';
 import { useLocalization } from '../../i18n';
 import type { Mode } from '../../types';
 import { Volume2 } from 'lucide-react';
@@ -73,15 +73,15 @@ export function WizardScreen({
   const currentQ = questions[step];
 
   const handleSelect = (val: string) => {
-    const updated = { ...answers, [currentQ.id]: val };
-    setAnswers(updated);
-    setTimeout(() => {
-      if (step < questions.length - 1) {
-        setStep(step + 1);
-      } else {
-        onNext(updated);
-      }
-    }, 350);
+    setAnswers({ ...answers, [currentQ.id]: val });
+  };
+
+  const handleNext = () => {
+    if (step < questions.length - 1) {
+      setStep(step + 1);
+    } else {
+      onNext(answers);
+    }
   };
 
   return (
@@ -126,6 +126,19 @@ export function WizardScreen({
               onClick={() => handleSelect(opt.value)}
             />
           ))}
+        </div>
+
+        <div className="pt-6 flex justify-end">
+          <button
+            type="button"
+            className="flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm transition-all active:scale-95 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ background: '#176B52', color: 'white' }}
+            onClick={handleNext}
+            disabled={!answers[currentQ.id]}
+          >
+            <span>{step < questions.length - 1 ? (t('wizard.next') || 'Next') : (t('common.finish') || 'Complete')}</span>
+            <span className="text-lg leading-none">→</span>
+          </button>
         </div>
       </div>
     </ScreenWrap>

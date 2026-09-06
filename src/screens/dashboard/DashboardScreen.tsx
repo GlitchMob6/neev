@@ -1,7 +1,6 @@
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
 import { Card, SourceBadge, C } from '../../components/ui';
 import { QuickActionCard } from '../../components/cards/QuickActionCard';
-import { AssistantAvatar } from '../../components/assistant/AssistantAvatar';
 import { useLocalization } from '../../i18n';
 import { useFinancialEngine } from '../../hooks/useFinancialEngine';
 import { getMockBusiness } from '../../data/mockBusiness';
@@ -12,8 +11,8 @@ import {
   TrendingUp,
   Download,
   FileSpreadsheet,
-  Bot,
   Users,
+  Award,
   ArrowRight,
   Sparkles,
   MapPin,
@@ -74,11 +73,12 @@ export function DashboardScreen({
           </div>
           <button
             type="button"
-            onClick={() => setScreen('settings')}
-            className="w-11 h-11 rounded-full overflow-hidden border-2 cursor-pointer shadow-xs"
-            style={{ borderColor: C.primary }}
+            onClick={() => setScreen('profile')}
+            className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm cursor-pointer shadow-xs"
+            style={{ background: C.primary }}
           >
-            <AssistantAvatar size={42} />
+            {user.firstName ? user.firstName[0].toUpperCase() : 'U'}
+            {user.lastName ? user.lastName[0].toUpperCase() : ''}
           </button>
         </div>
 
@@ -204,14 +204,13 @@ export function DashboardScreen({
               variant="white"
             />
 
-            {/* 3. Agentic AI (Coming Soon) */}
+            {/* 3. Find a Scheme */}
             <QuickActionCard
-              title={t('dashboard.agenticAI') || 'Agentic AI'}
-              subtitle={t('dashboard.agenticAISub') || 'Autonomous business agent'}
-              icon={<Bot size={20} />}
-              comingSoon={true}
-              onClick={() => setScreen('agenticAI')}
-              variant="sand"
+              title={t('dashboard.schemes') || 'Find a Scheme'}
+              subtitle={t('dashboard.schemesSub') || 'Govt funding options'}
+              icon={<Award size={20} />}
+              onClick={() => setScreen('schemes')}
+              variant="white"
             />
 
             {/* 4. Network (Coming Soon) */}

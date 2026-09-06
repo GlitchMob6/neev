@@ -57,7 +57,7 @@ export function ScreenWrap({
       )}
 
       {/* Main Content Area */}
-      <main className={`flex-1 overflow-y-auto no-scroll px-5 py-4 ${className}`}>
+      <main className={`flex-1 overflow-y-auto no-scroll px-5 pt-4 ${showNav ? 'pb-28' : 'pb-8'} ${className}`}>
         {bannerMessage && mode === 'assisted' && (
           <AssistantBanner
             message={bannerMessage}

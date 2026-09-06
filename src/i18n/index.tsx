@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import { en, type TranslationKeys } from './en';
 import { hi } from './hi';
 import { mr } from './mr';
@@ -25,9 +25,11 @@ export function LocalizationProvider({
   children: ReactNode;
   initialLanguage?: Language;
 }) {
-  const [language, setLanguageState] = useState<Language>(
-    () => (sessionStorage.getItem('neev-lang') as Language) || initialLanguage || 'en'
-  );
+  const [language, setLanguageState] = useState<Language>(initialLanguage || 'en');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-lang', initialLanguage || 'en');
+  }, [initialLanguage]);
 
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang);

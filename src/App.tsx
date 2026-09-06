@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { LocalizationProvider, useLocalization } from './i18n';
 import { HighlightProvider } from './hooks/useHighlight';
 import { PhoneFrame } from './components/layout/PhoneFrame';
-import type { Screen, Mode, User, Business, FinancialInputs } from './types';
+import type { Screen, Mode, User, Business, FinancialInputs, Scheme, SchemeDiscoveryAnswers } from './types';
 import { mockUser } from './data/mockUser';
 import { getMockBusiness } from './data/mockBusiness';
 import { mockFinancialInputs } from './data/mockFinancial';
@@ -28,17 +28,34 @@ import { SwotScreen } from './screens/reports/SwotScreen';
 import { PricingScreen } from './screens/reports/PricingScreen';
 import { InsightScreen } from './screens/reports/InsightScreen';
 import { SettingsScreen } from './screens/settings/SettingsScreen';
+import { ProfileScreen } from './screens/profile/ProfileScreen';
 import { AgenticAIScreen } from './screens/agentic-ai/AgenticAIScreen';
 import { NetworkScreen } from './screens/network/NetworkScreen';
+import { SchemesScreen } from './screens/schemes/SchemesScreen';
+import { SchemeDiscoveryScreen } from './screens/schemes/SchemeDiscoveryScreen';
+import { SchemeDetailScreen } from './screens/schemes/SchemeDetailScreen';
 
 function AppContent() {
   const { language } = useLocalization();
-  const [screen, setScreen] = useState<Screen>('splash');
+  const [screen, setScreenState] = useState<Screen>('splash');
+  const [moduleReturnScreen, setModuleReturnScreen] = useState<Screen>('dashboard');
+
+  const setScreen = (newScreen: Screen) => {
+    if (
+      ['dashboard', 'reports', 'settings', 'schemes', 'profile'].includes(screen) &&
+      !['dashboard', 'reports', 'settings', 'schemes', 'profile'].includes(newScreen)
+    ) {
+      setModuleReturnScreen(screen);
+    }
+    setScreenState(newScreen);
+  };
   const [mode, setMode] = useState<Mode>('assisted');
   const [user, setUser] = useState<User>(mockUser);
   const [business, setBusiness] = useState<Business>(() => getMockBusiness(language));
   const [financialInputs, setFinancialInputs] = useState<FinancialInputs>(mockFinancialInputs);
   const [userEditedBusiness, setUserEditedBusiness] = useState(false);
+  const [selectedScheme, setSelectedScheme] = useState<Scheme | null>(null);
+  const [schemeAnswers, setSchemeAnswers] = useState<SchemeDiscoveryAnswers>({});
 
   useEffect(() => {
     if (!userEditedBusiness) {
@@ -206,7 +223,7 @@ function AppContent() {
             financialInputs={financialInputs}
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('reports')}
+            onBack={() => setScreen(moduleReturnScreen)}
           />
         );
 
@@ -256,7 +273,7 @@ function AppContent() {
           />
         );
 
-      // ── Settings ──
+      // ── Settings & Profile ──
       case 'settings':
         return (
           <SettingsScreen
@@ -268,13 +285,57 @@ function AppContent() {
           />
         );
 
+      case 'profile':
+        return (
+          <ProfileScreen
+            user={user}
+            setUser={setUser}
+            mode={mode}
+            setMode={setMode}
+            onBack={() => setScreen('dashboard')}
+          />
+        );
+
+      // ── Schemes ──
+      case 'schemes':
+        return (
+          <SchemesScreen
+            business={business}
+            mode={mode}
+            setScreen={setScreen}
+            onSchemeSelect={setSelectedScheme}
+          />
+        );
+
+      case 'schemeDiscovery':
+        return (
+          <SchemeDiscoveryScreen
+            mode={mode}
+            onComplete={(ans) => {
+               setSchemeAnswers(ans);
+               setScreen('schemes');
+            }}
+            onBack={() => setScreen('schemes')}
+          />
+        );
+
+      case 'schemeDetail':
+        return (
+          <SchemeDetailScreen
+            scheme={selectedScheme}
+            fit={schemeAnswers.amount ? 'highly_relevant' : 'relevant'}
+            mode={mode}
+            onBack={() => setScreen('schemes')}
+          />
+        );
+
       // ── Placeholders ──
       case 'agenticAI':
         return (
           <AgenticAIScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('dashboard')}
+            onBack={() => setScreen(moduleReturnScreen)}
           />
         );
 
@@ -283,7 +344,7 @@ function AppContent() {
           <NetworkScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('dashboard')}
+            onBack={() => setScreen(moduleReturnScreen)}
           />
         );
 
@@ -305,7 +366,7 @@ function AppContent() {
 
 export function App() {
   return (
-    <LocalizationProvider initialLanguage="mr">
+    <LocalizationProvider initialLanguage="en">
       <HighlightProvider>
         <AppContent />
       </HighlightProvider>

@@ -6,15 +6,18 @@ export type CoreScreen =
   | 'brainDump' | 'heard' | 'score' | 'wizard';
 
 export type MainScreen =
-  | 'dashboard' | 'reports' | 'settings';
+  | 'dashboard' | 'reports' | 'settings' | 'schemes' | 'profile';
 
 export type ReportScreen =
   | 'financialReport' | 'roadmap' | 'market' | 'swot' | 'pricing' | 'insight';
 
+export type SchemeScreen =
+  | 'schemeDiscovery' | 'schemeDetail';
+
 export type PlaceholderScreen =
   | 'agenticAI' | 'network';
 
-export type Screen = OnboardingScreen | CoreScreen | MainScreen | ReportScreen | PlaceholderScreen;
+export type Screen = OnboardingScreen | CoreScreen | MainScreen | ReportScreen | PlaceholderScreen | SchemeScreen;
 
 // ─── Interaction mode ─────────────────────────────────────────────────────────
 export type Mode = 'voice' | 'assisted' | 'normal';
@@ -127,6 +130,28 @@ export interface QuickAction {
   id: string;
   labelKey: string;
   icon: string;
-  action: 'download-engine' | 'download-report' | 'coming-soon';
+  action: 'download-engine' | 'download-report' | 'coming-soon' | 'navigate-schemes';
   comingSoon?: boolean;
+}
+
+// ─── Schemes ──────────────────────────────────────────────────────────────────
+export interface Scheme {
+  id: string;
+  nameKey: string;
+  shortDescKey: string;
+  intendedForKey: string;
+  loanRangeKey: string;
+  primaryBenefitKey: string;
+  tags: string[];
+  documentsKey?: string;
+  processKey?: string;
+  considerationsKey?: string;
+}
+
+export type SchemeFit = 'highly_relevant' | 'relevant' | 'more_info_needed';
+
+export interface SchemeDiscoveryAnswers {
+  fundingReason?: string;
+  amount?: string;
+  businessPhase?: string;
 }

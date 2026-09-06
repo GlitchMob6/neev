@@ -14,12 +14,11 @@ export function IdCreationScreen({
   onBack: () => void;
 }) {
   const { t } = useLocalization();
-  const [firstName, setFirstName] = useState(user.firstName || 'Ramesh');
-  const [lastName, setLastName] = useState(user.lastName || 'Patil');
-  const [age, setAge] = useState(user.age ? String(user.age) : '32');
-  const [gender, setGender] = useState<'male' | 'female' | 'other' | 'prefer-not-to-say'>(
-    user.gender || 'male'
-  );
+  // State starts empty so demo data isn't pre-filled.
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [age, setAge] = useState('');
+  const [gender, setGender] = useState<'male' | 'female' | 'other' | 'prefer-not-to-say' | ''>('');
 
   const genderOptions: { id: 'male' | 'female' | 'other' | 'prefer-not-to-say'; label: string; icon: string }[] = [
     { id: 'female', label: t('id.female') || 'Female', icon: '👩' },
@@ -30,10 +29,10 @@ export function IdCreationScreen({
 
   const handleContinue = () => {
     onNext({
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      age: parseInt(age, 10) || 30,
-      gender,
+      firstName: firstName.trim() || user.firstName,
+      lastName: lastName.trim() || user.lastName,
+      age: parseInt(age, 10) || user.age || 30,
+      gender: gender || user.gender || 'male',
     });
   };
 
@@ -55,13 +54,13 @@ export function IdCreationScreen({
               label={t('id.firstName') || 'First Name'}
               value={firstName}
               onChange={setFirstName}
-              placeholder="e.g. Ramesh"
+              placeholder={user.firstName || "e.g. Ramesh"}
             />
             <InputField
               label={t('id.lastName') || 'Last Name'}
               value={lastName}
               onChange={setLastName}
-              placeholder="e.g. Patil"
+              placeholder={user.lastName || "e.g. Patil"}
             />
           </div>
 
@@ -69,7 +68,7 @@ export function IdCreationScreen({
             label={t('id.age') || 'Age'}
             value={age}
             onChange={(val) => setAge(val.replace(/\D/g, '').slice(0, 3))}
-            placeholder="e.g. 32"
+            placeholder={user.age ? String(user.age) : "e.g. 32"}
             type="number"
           />
 
@@ -109,7 +108,7 @@ export function IdCreationScreen({
           <Button
             label={t('common.continue') || 'Continue'}
             onClick={handleContinue}
-            disabled={!firstName.trim()}
+            disabled={false}
           />
         </div>
       </div>

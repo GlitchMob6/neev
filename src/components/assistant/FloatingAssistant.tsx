@@ -20,10 +20,10 @@ export function FloatingAssistant({
   if (mode === 'voice') return null;
 
   return (
-    <div className="absolute bottom-20 left-4 z-40 flex flex-col items-start gap-2 pointer-events-auto">
+    <div className="absolute bottom-24 right-4 z-40 flex flex-col items-end gap-2 pointer-events-auto">
       {open && message && (
         <div
-          className="rounded-2xl rounded-bl-none p-3.5 shadow-xl max-w-[250px] animate-fadeInUp relative"
+          className="rounded-2xl rounded-br-none p-3.5 shadow-xl max-w-[250px] animate-fadeInUp relative"
           style={{ background: C.primary, color: '#FAF7F0', border: '1px solid rgba(255,255,255,0.2)' }}
         >
           <button
@@ -68,16 +68,6 @@ export function FloatingAssistant({
         >
           <AssistantAvatar size={42} active={open} />
         </button>
-        {mode === 'assisted' && (
-          <div
-            className="absolute -top-1 -right-1 w-4 h-4 rounded-full flex items-center justify-center shadow-xs"
-            style={{ background: C.terracotta }}
-          >
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-              <path d="M4 1 L4 7 M1 4 L7 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-          </div>
-        )}
       </div>
     </div>
   );
