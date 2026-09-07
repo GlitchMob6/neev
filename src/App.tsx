@@ -71,7 +71,17 @@ function AppContent() {
     switch (screen) {
       // ── Onboarding ──
       case 'splash':
-        return <SplashScreen onDone={() => setScreen('login')} />;
+        return <SplashScreen onDone={() => setScreen('language')} />;
+
+      case 'language':
+        return (
+          <LanguageScreen
+            onNext={() => {
+              setUser((prev) => ({ ...prev, language }));
+              setScreen('login');
+            }}
+          />
+        );
 
       case 'login':
         return (
@@ -80,6 +90,7 @@ function AppContent() {
               setUser((prev) => ({ ...prev, phone }));
               setScreen('otp');
             }}
+            onBack={() => setScreen('language')}
           />
         );
 
@@ -108,16 +119,8 @@ function AppContent() {
         return (
           <LocationScreen
             location={`${user.location}, ${user.state}`}
-            onNext={() => setScreen('language')}
-            onBack={() => setScreen('idCreation')}
-          />
-        );
-
-      case 'language':
-        return (
-          <LanguageScreen
             onNext={() => setScreen('mode')}
-            onBack={() => setScreen('location')}
+            onBack={() => setScreen('idCreation')}
           />
         );
 
@@ -127,7 +130,7 @@ function AppContent() {
             currentMode={mode}
             setMode={setMode}
             onNext={() => setScreen('brainDump')}
-            onBack={() => setScreen('language')}
+            onBack={() => setScreen('location')}
           />
         );
 

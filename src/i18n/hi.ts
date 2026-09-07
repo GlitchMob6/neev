@@ -130,6 +130,8 @@ export const hi: Record<TranslationKeys, string> = {
   // ─── Score ────────────────────────────────────────────────────────────
   'score.title': 'आपका विचार अच्छी शुरुआत पर है।',
   'score.subtitle': 'शुरुआती व्यवहार्यता अनुमान',
+  'score.diveDeep': 'आइए आपके व्यवसाय की गहराई में चलें',
+  'score.diveDeepSub': 'अपने संचालन, बाजार की संभावनाओं और वित्तीय अनुमानों को समझें।',
   'score.outOf': '100 में से',
   'score.demand': 'स्थानीय मांग',
   'score.demandVal': 'मजबूत',

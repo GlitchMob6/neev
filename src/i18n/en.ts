@@ -128,6 +128,8 @@ export const en = {
   // ─── Score ────────────────────────────────────────────────────────────
   'score.title': 'Your idea is off to a good start.',
   'score.subtitle': 'Early feasibility estimate',
+  'score.diveDeep': "Let's Dive Deep in your Business",
+  'score.diveDeepSub': 'Explore your operations, market fit, and personalized financial estimates.',
   'score.outOf': 'out of 100',
   'score.demand': 'Local demand',
   'score.demandVal': 'Strong',

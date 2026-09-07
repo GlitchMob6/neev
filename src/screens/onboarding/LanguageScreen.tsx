@@ -9,7 +9,7 @@ export function LanguageScreen({
   onBack,
 }: {
   onNext: () => void;
-  onBack: () => void;
+  onBack?: () => void;
 }) {
   const { language, setLanguage, t } = useLocalization();
 
@@ -30,7 +30,7 @@ export function LanguageScreen({
   };
 
   return (
-    <ScreenWrap onBack={onBack} progress={5} totalSteps={6}>
+    <ScreenWrap onBack={onBack} progress={1} totalSteps={6}>
       <div className="flex flex-col gap-5 pt-2 pb-6">
         <div>
           <h1 className="font-display font-bold text-2xl text-charcoal leading-tight">

@@ -37,7 +37,7 @@ export function IdCreationScreen({
   };
 
   return (
-    <ScreenWrap onBack={onBack} progress={3} totalSteps={6}>
+    <ScreenWrap onBack={onBack} progress={4} totalSteps={6}>
       <div className="flex flex-col gap-5 pt-2 pb-6">
         <div>
           <h1 className="font-display font-bold text-2xl text-charcoal leading-tight">

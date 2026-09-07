@@ -4,14 +4,20 @@ import { NeevLogo } from '../../components/layout/NeevLogo';
 import { Button, C } from '../../components/ui';
 import { useLocalization } from '../../i18n';
 
-export function LoginScreen({ onNext }: { onNext: (phone: string) => void }) {
+export function LoginScreen({
+  onNext,
+  onBack,
+}: {
+  onNext: (phone: string) => void;
+  onBack?: () => void;
+}) {
   const { t } = useLocalization();
   const [phone, setPhone] = useState('');
 
   const isValid = phone.trim().length === 10;
 
   return (
-    <ScreenWrap progress={1} totalSteps={6}>
+    <ScreenWrap onBack={onBack} progress={2} totalSteps={6}>
       <div className="flex flex-col gap-6 pt-4 pb-6">
         <div className="flex flex-col items-center gap-2 pt-2">
           <NeevLogo size={56} />

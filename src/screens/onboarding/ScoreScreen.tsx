@@ -1,8 +1,8 @@
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
-import { Button, Card, ScoreRing, C } from '../../components/ui';
+import { Button, Card, C } from '../../components/ui';
 import { useLocalization } from '../../i18n';
 import type { Mode } from '../../types';
-import { Info } from 'lucide-react';
+import { Info, Sparkles } from 'lucide-react';
 
 export function ScoreScreen({
   onNext,
@@ -14,7 +14,6 @@ export function ScoreScreen({
   mode?: Mode;
 }) {
   const { t } = useLocalization();
-  const score = 79;
 
   return (
     <ScreenWrap
@@ -32,9 +31,28 @@ export function ScoreScreen({
           </p>
         </div>
 
-        {/* Animated Score Ring */}
-        <div className="flex justify-center py-2">
-          <ScoreRing score={score} size={190} strokeWidth={14} />
+        {/* Dive Deep Hero Banner */}
+        <div
+          className="rounded-3xl p-6 text-center flex flex-col items-center justify-center gap-3 border shadow-xs"
+          style={{
+            background: 'linear-gradient(145deg, #EBF7F3 0%, #FAF7F0 100%)',
+            borderColor: '#B8DFD4',
+          }}
+        >
+          <div
+            className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-xs"
+            style={{ background: C.primary, color: '#FAF7F0' }}
+          >
+            <Sparkles size={28} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <h2 className="font-display font-bold text-xl text-charcoal leading-snug">
+              {t('score.diveDeep') || "Let's Dive Deep in your Business"}
+            </h2>
+            <p className="text-xs text-muted max-w-xs leading-relaxed">
+              {t('score.diveDeepSub') || 'Explore your operations, market fit, and personalized financial estimates.'}
+            </p>
+          </div>
         </div>
 
         {/* 3 Metric Pills */}
