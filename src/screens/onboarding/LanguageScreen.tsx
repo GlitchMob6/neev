@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
 import { Button, C } from '../../components/ui';
 import { useLocalization } from '../../i18n';
@@ -12,6 +13,7 @@ export function LanguageScreen({
   onBack?: () => void;
 }) {
   const { language, setLanguage, t } = useLocalization();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const languages: {
     id: Language;
@@ -23,7 +25,20 @@ export function LanguageScreen({
     { id: 'en', native: 'English', sub: 'English', flag: '🇬🇧', recommended: false },
     { id: 'hi', native: 'हिन्दी', sub: 'Hindi', flag: '🇮🇳', recommended: false },
     { id: 'mr', native: 'मराठी', sub: 'Marathi', flag: '🇮🇳', recommended: true },
+    { id: 'gu', native: 'ગુજરાતી', sub: 'Gujarati', flag: '🇮🇳', recommended: false },
+    { id: 'ta', native: 'தமிழ்', sub: 'Tamil', flag: '🇮🇳', recommended: false },
+    { id: 'te', native: 'తెలుగు', sub: 'Telugu', flag: '🇮🇳', recommended: false },
+    { id: 'ml', native: 'മലയാളം', sub: 'Malayalam', flag: '🇮🇳', recommended: false },
+    { id: 'kn', native: 'ಕನ್ನಡ', sub: 'Kannada', flag: '🇮🇳', recommended: false },
+    { id: 'tulu', native: 'ತುಳು', sub: 'Tulu', flag: '🇮🇳', recommended: false },
+    { id: 'pa', native: 'ਪੰਜਾਬੀ', sub: 'Punjabi', flag: '🇮🇳', recommended: false },
   ];
+
+  const filteredLanguages = languages.filter(
+    (lang) =>
+      lang.native.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      lang.sub.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const handleSelect = (langId: Language) => {
     setLanguage(langId);
@@ -47,8 +62,23 @@ export function LanguageScreen({
           </p>
         </div>
 
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Search language..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full rounded-2xl px-4 py-3 outline-none transition-all text-sm font-medium"
+            style={{
+              background: 'white',
+              border: `2px solid ${C.border}`,
+              color: C.charcoal,
+            }}
+          />
+        </div>
+
         <div className="flex flex-col gap-3">
-          {languages.map((lang) => {
+          {filteredLanguages.map((lang) => {
             const isSelected = language === lang.id;
             return (
               <button
@@ -95,6 +125,9 @@ export function LanguageScreen({
               </button>
             );
           })}
+          {filteredLanguages.length === 0 && (
+            <p className="text-center text-sm text-muted py-4">No languages found.</p>
+          )}
         </div>
 
         <div className="pt-2">

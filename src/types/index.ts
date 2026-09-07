@@ -3,19 +3,19 @@ export type OnboardingScreen =
   | 'splash' | 'login' | 'otp' | 'idCreation' | 'location' | 'language' | 'mode';
 
 export type CoreScreen =
-  | 'brainDump' | 'heard' | 'score' | 'wizard';
+  | 'brainDump' | 'heard' | 'score' | 'wizard-loading' | 'wizard' | 'processing' | 'scorecard';
 
 export type MainScreen =
-  | 'dashboard' | 'reports' | 'settings' | 'schemes' | 'profile';
+  | 'dashboard' | 'reports' | 'settings' | 'profile';
 
 export type ReportScreen =
   | 'financialReport' | 'roadmap' | 'market' | 'swot' | 'pricing' | 'insight';
 
 export type SchemeScreen =
-  | 'schemeDiscovery' | 'schemeDetail';
+  | 'schemeDiscovery' | 'schemeDetail' | 'schemes';
 
 export type PlaceholderScreen =
-  | 'agenticAI' | 'network';
+  | 'agenticAI' | 'network' | 'invoice';
 
 export type Screen = OnboardingScreen | CoreScreen | MainScreen | ReportScreen | PlaceholderScreen | SchemeScreen;
 
@@ -23,7 +23,37 @@ export type Screen = OnboardingScreen | CoreScreen | MainScreen | ReportScreen |
 export type Mode = 'voice' | 'assisted' | 'normal';
 
 // ─── Language ─────────────────────────────────────────────────────────────────
-export type Language = 'en' | 'hi' | 'mr';
+export type Language = 'en' | 'hi' | 'mr' | 'gu' | 'ta' | 'te' | 'ml' | 'kn' | 'tulu' | 'pa';
+
+// ─── Scorecard Data ──────────────────────────────────────────────────────────
+export interface ScorecardData {
+  understandingScore: number;       // out of 500
+  usp: string;
+  viabilityScore: number;           // out of 100
+  viabilityDimensions: ViabilityDimension[];
+  loanIntent: 'yes' | 'no' | null;
+}
+
+export interface ViabilityDimension {
+  labelKey: string;
+  label: string;
+  percentage: number;
+}
+
+// ─── Scheme Types ────────────────────────────────────────────────────────────
+export type NeevSchemeType = 'microfinance' | 'term_loan' | 'none';
+
+export interface NeevScheme {
+  type: NeevSchemeType;
+  name: string;
+  maxAmount: number;
+  marginPercent: number;
+  loanPercent: number;
+  interestRate: number;
+  tenureYears: number;
+  tenureMonths: number;
+  moratoriumMonths: number;
+}
 
 // ─── Voice assistant state ────────────────────────────────────────────────────
 export type VoiceState = 'idle' | 'listening' | 'processing' | 'speaking';

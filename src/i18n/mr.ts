@@ -1,7 +1,4 @@
-import type { TranslationKeys } from './en';
-
-export const mr: Record<TranslationKeys, string> = {
-  // ─── Common ───────────────────────────────────────────────────────────
+export const mr: Record<string, string> = {
   'common.continue': 'पुढे जा',
   'common.back': 'मागे जा',
   'common.next': 'पुढील',
@@ -15,8 +12,6 @@ export const mr: Record<TranslationKeys, string> = {
   'common.comingSoon': 'लवकरच येत आहे',
   'common.addDetail': '+ माहिती जोडा',
   'common.backToDashboard': 'डॅशबोर्डवर परत जा',
-
-  // ─── Assistant ────────────────────────────────────────────────────────
   'assistant.title': 'नीव सहाय्यक',
   'assistant.listen': 'नीवला ऐका',
   'assistant.braindump': 'शांतपणे सांगा. मी तुमच्या व्यवसायाची कल्पना व्यवस्थित मांडण्यास मदत करेन.',
@@ -31,12 +26,8 @@ export const mr: Record<TranslationKeys, string> = {
   'assistant.pricing': 'बाजारात टिकून राहण्यासाठी आम्ही प्रति लिटर ₹५६ ते ₹६५ दरम्यान सुरुवात करण्याचा सल्ला देतो.',
   'assistant.insight': 'तुमच्या व्यवसाय कल्पनेचा पाया अत्यंत भक्कम आहे. या योजनेनुसार नक्की पुढे जा!',
   'assistant.settings': 'येथे तुमची भाषा, आवाज मोड आणि प्रोफाईल प्राधान्ये बदला.',
-
-  // ─── Splash ───────────────────────────────────────────────────────────
   'splash.tagline': 'तुमची कल्पना साकार करा.\nतुमचे भविष्य घडवा.',
   'splash.subtitle': 'नींव · नीव',
-
-  // ─── Login ────────────────────────────────────────────────────────────
   'login.title': 'नीव मध्ये स्वागत आहे',
   'login.welcome': 'नीव मध्ये स्वागत आहे',
   'login.subtitle': 'चला, तुमच्या व्यवसायाची पायाभरणी सुरू करूया.',
@@ -48,8 +39,6 @@ export const mr: Record<TranslationKeys, string> = {
   'login.otpNote': 'खात्री करण्यासाठी आम्ही ६ अंकी OTP पाठवू.',
   'login.continue': 'पुढे जा',
   'login.terms': 'पुढे जाऊन आपण नीवच्या वापर अटी आणि गोपनीयता धोरणाशी सहमत आहात.',
-
-  // ─── OTP ──────────────────────────────────────────────────────────────
   'otp.title': 'मोबाईल नंबरची पडताळणी करा',
   'otp.subtitle': 'आम्ही ६ अंकी OTP पाठवला आहे:',
   'otp.resend': 'OTP पुन्हा पाठवा',
@@ -57,8 +46,6 @@ export const mr: Record<TranslationKeys, string> = {
   'otp.verify': 'पडताळणी करा आणि पुढे जा',
   'otp.securityNotice': 'तुमचा नंबर फक्त खात्याच्या सुरक्षेसाठी वापरला जातो. नीव तो कधीही कोणाशीही शेअर करत नाही.',
   'otp.privacy': 'तुमचा नंबर फक्त खात्याच्या सुरक्षेसाठी वापरला जातो. नीव तो कधीही कोणाशीही शेअर करत नाही.',
-
-  // ─── ID Creation ──────────────────────────────────────────────────────
   'id.title': 'तुमची माहिती सांगा',
   'id.subtitle': 'यामुळे नीवला तुमच्यासाठी अचूक मार्गदर्शन आणि सरकारी योजना शोधण्यास मदत होते.',
   'id.firstName': 'पहिले नाव',
@@ -69,8 +56,6 @@ export const mr: Record<TranslationKeys, string> = {
   'id.female': 'महिला',
   'id.other': 'इतर',
   'id.preferNot': 'सांगायचे नाही',
-
-  // ─── Location ─────────────────────────────────────────────────────────
   'location.title': 'तुमचे ठिकाण (लोकेशन) शोधूया',
   'location.subtitle': 'यामुळे नीवला तुमचा स्थानिक बाजार आणि स्पर्धा समजून घेण्यास मदत होते.',
   'location.yourLocation': 'तुमचे ठिकाण',
@@ -84,14 +69,10 @@ export const mr: Record<TranslationKeys, string> = {
   'location.why': 'हे का आवश्यक आहे:',
   'location.whyDesc': 'नीव तुमच्या परिसरातील स्थानिक बाजार, दुकाने आणि लागू होणाऱ्या सरकारी योजना समजण्यासाठी हे ठिकाण वापरते.',
   'location.explanation': 'नीव तुमच्या परिसरातील स्थानिक बाजार, दुकाने आणि लागू होणाऱ्या सरकारी योजना समजण्यासाठी हे ठिकाण वापरते.',
-
-  // ─── Language ─────────────────────────────────────────────────────────
   'language.title': 'तुमची भाषा निवडा',
   'language.subtitle': 'भाषा चुनें · भाषा निवडा',
   'language.changeLater': 'तुम्ही ही भाषा सेटिंग्जमध्ये कधीही बदलू शकता.',
   'language.recommended': 'शिफारस केलेले',
-
-  // ─── Mode ─────────────────────────────────────────────────────────────
   'mode.title': 'नीव कसे वापरायला आवडेल?',
   'mode.subtitle': 'तुम्हाला सर्वात सोपे वाटेल तो पर्याय निवडा.',
   'mode.voice.title': 'नीवशी थेट बोला',
@@ -103,8 +84,6 @@ export const mr: Record<TranslationKeys, string> = {
   'mode.normal.title': 'मी स्वतः ॲप वापरेन',
   'mode.normal.desc': 'स्क्रीनवर टॅप आणि टाईप करून सामान्य पद्धतीने वापरा.',
   'mode.normal.badge': 'सामान्य मोड',
-
-  // ─── Brain Dump ───────────────────────────────────────────────────────
   'braindump.title': 'तुमच्या व्यवसाय कल्पनेबद्दल सांगा',
   'braindump.subtitle': 'अगदी अचूक असण्याची काळजी करू नका. तुम्हाला कोणता व्यवसाय सुरू करायचा आहे ते साध्या भाषेत सांगा.',
   'braindump.placeholder': 'तुमच्या व्यवसायाची कल्पना, ठिकाण आणि उपलब्ध भांडवलाबद्दल सांगा...',
@@ -115,8 +94,6 @@ export const mr: Record<TranslationKeys, string> = {
   'braindump.tapMic': 'बोलण्यासाठी माईकवर टॅप करा.',
   'braindump.tryAgain': 'पुन्हा प्रयत्न करा',
   'braindump.continue': 'पुढे जा',
-
-  // ─── Heard ────────────────────────────────────────────────────
   'heard.title': 'आम्ही हे समजलो',
   'heard.subtitle': 'ही माहिती तपासा. सुरू करण्यापूर्वी तुम्ही यात कोणताही बदल करू शकता.',
   'heard.confirm': 'हे अगदी बरोबर आहे',
@@ -126,8 +103,6 @@ export const mr: Record<TranslationKeys, string> = {
   'heard.capital': 'उपलब्ध भांडवल',
   'heard.potential': 'संभाव्य व्यवसाय',
   'heard.addDetail': 'माहिती जोडा',
-
-  // ─── Score ────────────────────────────────────────────────────
   'score.title': 'तुमच्या कल्पनेची सुरुवात चांगली झाली आहे.',
   'score.subtitle': 'व्यवसाय व्यवहार्यता अंदाज',
   'score.diveDeep': 'चला, तुमच्या व्यवसायाची सखोल माहिती घेऊया',
@@ -141,8 +116,6 @@ export const mr: Record<TranslationKeys, string> = {
   'score.earlyEstimate': 'प्राथमिक अंदाज',
   'score.disclaimer': 'हा प्राथमिक अंदाज आहे. ही माहिती अधिक अचूक करण्यासाठी काही सोप्या प्रश्नांची उत्तरे द्या.',
   'score.answerQuestions': 'काही प्रश्नांची उत्तरे द्या',
-
-  // ─── Wizard ───────────────────────────────────────────────────
   'wizard.questionNumber': 'प्रश्न {current} / {total}',
   'wizard.hearThis': 'हे ऐका',
   'wizard.q1': 'दुकानाचे किंवा जागेचे मासिक भाडे किती असेल?',
@@ -169,8 +142,6 @@ export const mr: Record<TranslationKeys, string> = {
   'wizard.q4_opt2': '₹५०–₹६५ प्रति लिटर',
   'wizard.q4_opt3': '₹६५–₹८० प्रति लिटर',
   'wizard.q4_opt4': 'मला अजून नक्की माहिती नाही',
-
-  // ─── Dashboard ────────────────────────────────────────────────
   'dashboard.greeting': 'नमस्कार,',
   'dashboard.yourCapital': 'तुमचे भांडवल',
   'dashboard.estProfit': 'अंदाजे मासिक नफा',
@@ -188,8 +159,6 @@ export const mr: Record<TranslationKeys, string> = {
   'dashboard.modules': 'व्यवसाय विश्लेषण मॉड्युल्स',
   'dashboard.rentAssumption': 'भाडे: ₹{amount}/महिना',
   'dashboard.priceAssumption': 'दर: ₹{amount}/लिटर',
-
-  // ─── Financial Report ─────────────────────────────────────────
   'financial.title': 'आकडेवारी एका दृष्टिक्षेपात',
   'financial.subtitle': 'तुमच्या भांडवलावर आणि स्थानावर आधारित आर्थिक सारांश.',
   'financial.totalCost': 'एकूण प्रकल्प खर्च',
@@ -203,8 +172,6 @@ export const mr: Record<TranslationKeys, string> = {
   'financial.localPriceRange': 'स्थानिक दर मर्यादा',
   'financial.monthlyProfit': 'अंदाजे निव्वळ नफा',
   'financial.seeRepayment': 'कर्ज परतफेड योजना पहा',
-
-  // ─── Roadmap ──────────────────────────────────────────────────
   'roadmap.title': 'कर्ज परतफेड योजना',
   'roadmap.subtitle': 'कर्ज परतीची मुदत आणि कॅश फ्लोचे नियोजन.',
   'roadmap.moratorium': 'सवलत कालावधी (Moratorium)',
@@ -217,8 +184,6 @@ export const mr: Record<TranslationKeys, string> = {
   'roadmap.other': 'इतर उत्पादने (दही/पनीर)',
   'roadmap.scheme': 'शिफारस केलेली सरकारी योजना',
   'roadmap.seeMarket': 'बाजार व स्पर्धा विश्लेषण पहा',
-
-  // ─── Market ───────────────────────────────────────────────────
   'market.title': 'बाजारपेठ विस्तार',
   'market.subtitle': 'स्थानिक मागणी आणि परिसरातील स्पर्धेचे विश्लेषण.',
   'market.localDemand': 'स्थानिक मागणी',
@@ -229,8 +194,6 @@ export const mr: Record<TranslationKeys, string> = {
   'market.promising': 'आशादायी',
   'market.nearbyCompetition': 'परिसरातील दुकाने व स्पर्धा',
   'market.seeSwot': 'सकारात्मक बाजू व धोके पहा',
-
-  // ─── SWOT ─────────────────────────────────────────────────────
   'swot.title': 'सकारात्मक बाजू आणि धोके (SWOT)',
   'swot.subtitle': 'व्यवसायातील संधी आणि संभाव्य धोक्यांचे संतुलित विश्लेषण.',
   'swot.strengths': 'सकारात्मक बाजू',
@@ -250,8 +213,6 @@ export const mr: Record<TranslationKeys, string> = {
   'swot.t2': 'उन्हाळ्यात दूध उत्पादनातील घट',
   'swot.t3': 'नवीन स्पर्धकांचे आगमन',
   'swot.seePricing': 'दर ठरवण्याचे मार्गदर्शन पहा',
-
-  // ─── Pricing ──────────────────────────────────────────────────
   'pricing.title': 'सुचवलेली दर मर्यादा',
   'pricing.subtitle': 'स्थानिक बाजारभावाच्या जवळून सुरुवात करा.',
   'pricing.suggestedRange': 'सुचवलेला दर',
@@ -260,8 +221,6 @@ export const mr: Record<TranslationKeys, string> = {
   'pricing.comparable': 'स्थानिक किरकोळ प्रमाणित दर',
   'pricing.disclaimer': 'नीव तुमच्या माहितीची तुलना स्थानिक बाजारभावांशी करून ही दरमर्यादा सुचवते. हा एक सुरुवातीचा पाया आहे.',
   'pricing.seeInsight': 'नीवचा अंतिम निष्कर्ष पहा',
-
-  // ─── Insight ──────────────────────────────────────────────────
   'insight.title': 'नीवचा साध्या भाषेतील निष्कर्ष',
   'insight.subtitle': 'अंतिम विश्लेषण आणि व्यवसाय व्यवहार्यता सारांश.',
   'insight.readingBadge': 'व्यवहार्यता निष्कर्ष · अंदाजित',
@@ -271,8 +230,6 @@ export const mr: Record<TranslationKeys, string> = {
   'insight.capitalFit': 'भांडवल सुसंगतता',
   'insight.market': 'बाजार संधी',
   'insight.backToReports': 'सर्व अहवाल व डाऊनलोड्स पहा',
-
-  // ─── Reports ──────────────────────────────────────────────────
   'reports.title': 'अहवाल आणि विश्लेषण',
   'reports.subtitle': 'व्यवसाय आरोग्य आणि व्यवहार्यतेचे सविस्तर विश्लेषण.',
   'reports.businessHealth': 'बिझनेस हेल्थ स्कोअर',
@@ -280,21 +237,15 @@ export const mr: Record<TranslationKeys, string> = {
   'reports.detailedReports': 'सविस्तर अहवाल',
   'reports.downloadPdf': 'प्रकल्प अहवाल PDF डाऊनलोड करा',
   'reports.downloadEngine': 'फायनान्शियल मॉडेल (.csv) डाऊनलोड करा',
-
-  // ─── Settings ─────────────────────────────────────────────────
   'settings.title': 'सेटिंग्ज',
   'settings.subtitle': 'भाषा, मोड आणि प्रोफाईल प्राधान्ये',
   'settings.language': 'भाषा / Language',
   'settings.mode': 'वापर पद्धत (Mode)',
   'settings.restartOnboarding': 'व्यवसाय माहिती पुन्हा भरा',
-
-  // ─── Source Badges ────────────────────────────────────────────
   'badge.self': 'स्वतः दिलेली माहिती',
   'badge.model': 'मॉडेल अंदाज',
   'badge.local': 'स्थानिक अंदाज',
   'badge.govt': 'सरकारी माहिती',
-
-  // ─── Navigation ───────────────────────────────────────────────
   'nav.home': 'डॅशबोर्ड',
   'nav.reports': 'अहवाल',
   'nav.settings': 'सेटिंग्ज',
@@ -304,8 +255,6 @@ export const mr: Record<TranslationKeys, string> = {
   'nav.swot': 'SWOT विश्लेषण',
   'nav.pricing': 'सुचवलेली किंमत',
   'nav.insight': 'नीवचे विश्लेषण',
-
-  // ─── Schemes ────────────────────────────────────────────────────────
   'schemes.title': 'सरकारी योजना (Government Schemes)',
   'schemes.subtitle': 'तुमच्या व्यवसायासाठी योग्य निधी आणि मदत पर्याय शोधा.',
   'schemes.search': 'योजना, कर्ज शोधा...',
@@ -313,7 +262,6 @@ export const mr: Record<TranslationKeys, string> = {
   'schemes.findFitDesc': '3 सोप्या प्रश्नांची उत्तरे द्या आणि आम्ही सर्वोत्तम पर्याय सुचवू.',
   'schemes.startWizard': 'योजना शोधा',
   'schemes.popular': 'लोकप्रिय योजना',
-  
   'scheme.wiz.q1': 'तुम्हाला निधी कशासाठी हवा आहे?',
   'scheme.wiz.q1.o1': 'नवीन व्यवसाय सुरू करण्यासाठी',
   'scheme.wiz.q1.o2': 'सध्याचा व्यवसाय वाढवण्यासाठी',
@@ -329,7 +277,6 @@ export const mr: Record<TranslationKeys, string> = {
   'scheme.wiz.q3.o2': 'उत्पादन (Manufacturing)',
   'scheme.wiz.q3.o3': 'सेवा (Services)',
   'scheme.wiz.q3.o4': 'शेती / संबंधित (Agriculture)',
-  
   'scheme.fit.high': 'अत्यंत सुसंगत दिसते',
   'scheme.fit.med': 'सुसंगत असू शकते',
   'scheme.fit.low': 'अधिक माहितीची आवश्यकता आहे',
@@ -349,40 +296,89 @@ export const mr: Record<TranslationKeys, string> = {
   'scheme.apply': 'अधिकृत तपशील तपासा',
   'scheme.save': 'ही योजना सेव्ह करा',
   'scheme.saved': '✓ तुमच्या सूचीमध्ये सेव्ह केले',
-
   'scheme.mudra.name': 'पंतप्रधान मुद्रा योजना',
   'scheme.mudra.desc': 'व्यवसाय सुरू करण्यासाठी किंवा वाढवण्यासाठी सूक्ष्म आणि लघु उद्योगांसाठी कर्ज.',
   'scheme.mudra.target': 'लहान व्यवसाय',
   'scheme.mudra.range': '₹10 लाखांपर्यंत',
   'scheme.mudra.benefit': 'तारणमुक्त कर्ज',
-  
   'scheme.pmegp.name': 'PMEGP',
   'scheme.pmegp.desc': 'रोजगाराच्या संधी निर्माण करण्यासाठी क्रेडिट-लिंक्ड सबसिडी योजना.',
   'scheme.pmegp.target': 'उत्पादन / सेवा',
   'scheme.pmegp.range': '₹50 लाखांपर्यंत',
   'scheme.pmegp.benefit': '15-35% सबसिडी',
-
   'scheme.standup.name': 'स्टँड-अप इंडिया',
   'scheme.standup.desc': 'SC, ST किंवा महिला उद्योजकांनी स्थापन केलेल्या ग्रीनफिल्ड उपक्रमांसाठी बँक कर्ज.',
   'scheme.standup.target': 'महिला / SC / ST',
   'scheme.standup.range': '₹10L - ₹1Cr',
   'scheme.standup.benefit': 'कमी व्याजदर',
-
   'scheme.cgtmse.name': 'CGTMSE',
   'scheme.cgtmse.desc': 'SME ला तारणमुक्त कर्ज देण्यासाठी वित्तीय संस्थांना क्रेडिट हमी.',
   'scheme.cgtmse.target': 'SME',
   'scheme.cgtmse.range': '₹2 कोटीपर्यंत',
   'scheme.cgtmse.benefit': 'क्रेडिट हमी',
-
   'scheme.vishwakarma.name': 'पीएम विश्वकर्मा',
   'scheme.vishwakarma.desc': 'पारंपारिक कारागीर आणि शिल्पकारांना सर्वसमावेशक मदत.',
   'scheme.vishwakarma.target': 'कारागीर',
   'scheme.vishwakarma.range': '₹3 लाखांपर्यंत',
   'scheme.vishwakarma.benefit': 'कौशल्य प्रशिक्षण',
-
   'assistant.schemes': 'तुमच्या व्यवसायासाठी योग्य सरकारी मदत शोधण्यात मला तुम्हाला मदत करू द्या.',
   'assistant.schemeWiz': 'तुमच्या प्रोफाईलशी जुळणाऱ्या योजना शोधण्यासाठी मी या तपशीलांचा वापर करेन.',
   'assistant.schemeDetail': 'तुमच्या आवश्यकतेनुसार ही योजना एक चांगला पर्याय वाटत आहे. पात्रता पडताळण्याची खात्री करा.',
+  'assistant.scorecard': 'This is your complete business assessment. Scroll through to see your understanding, viability, and financing options.',
   'dashboard.schemes': 'योजना शोधा',
   'dashboard.schemesSub': 'सरकारी फंडिंग पर्याय',
+  'dashboard.excelAnalysis': 'Excel / Financial Analysis',
+  'dashboard.excelAnalysisSub': 'Export calculations as spreadsheet',
+  'dashboard.marketCompetition': 'Market Competition',
+  'dashboard.marketCompetitionSub': 'Local demand & competitor analysis',
+  'dashboard.businessReport': 'Business Report',
+  'dashboard.businessReportSub': 'Complete assessment & downloads',
+  'dashboard.tools': 'Tools',
+  'dashboard.networking': 'Networking',
+  'dashboard.networkingSub': 'Connect with fellow entrepreneurs',
+  'dashboard.invoiceSystem': 'Invoice System',
+  'dashboard.invoiceSystemSub': 'Create & manage invoices',
+  'scorecard.badge': 'Your Assessment',
+  'scorecard.title': 'Your Neev Scorecard',
+  'scorecard.understanding': 'Your Understanding',
+  'scorecard.understandingDesc': 'How well you understand your market and business',
+  'scorecard.usp': 'Your USP',
+  'scorecard.viability': 'Business Viability',
+  'scorecard.loanQuestion': 'Do you want to apply for a loan?',
+  'scorecard.loanQuestionSub': 'Neev can suggest a financing plan based on your assessment',
+  'scorecard.schemePossibility': 'Suggested Scheme',
+  'scorecard.eligible': 'Eligible',
+  'scorecard.microfinanceDesc': 'For total requirements up to ₹1.4 lakh at 6% interest over 3 years',
+  'scorecard.termLoanDesc': 'For total requirements up to ₹50 lakh at 8% interest over 7 years',
+  'scorecard.capitalMargin': 'Capital & Margin',
+  'scorecard.yourContribution': 'Your Contribution',
+  'scorecard.loanAmount': 'Loan Amount',
+  'scorecard.total': 'Total',
+  'scorecard.emiCalculator': 'EMI Calculator',
+  'scorecard.indicativeEmi': 'Indicative Monthly EMI',
+  'scorecard.repaymentPlan': 'Repayment Plan',
+  'scorecard.moratoriumNote': 'No EMI during initial setup period. Interest accrues.',
+  'scorecard.repaymentDisclaimer': 'Estimated repayment. Actual terms may vary.',
+  'scorecard.reportPreview': 'Business Report Preview',
+  'scorecard.reportPreviewDesc': 'Your complete assessment is ready to view',
+  'scorecard.viewReport': 'View Report',
+  'viability.localDemand': 'Local demand',
+  'viability.competition': 'Competition',
+  'viability.capitalAdequacy': 'Capital adequacy',
+  'viability.profitPotential': 'Profit potential',
+  'viability.supplyAvailability': 'Supply availability',
+  'viability.loanRepayment': 'Loan repayment capacity',
+  'viability.risk': 'Risk',
+  'reports.businessSnapshot': 'Business Snapshot',
+  'reports.marketUnderstanding': 'Market Understanding',
+  'reports.viability': 'Business Viability',
+  'reports.financialPicture': 'Financial Picture',
+  'reports.financing': 'Financing Recommendation',
+  'reports.usp': 'Your USP',
+  'reports.yourCorner': 'Your Corner',
+  'reports.downloadExcel': 'Download Excel',
+  'common.yes': 'Yes',
+  'common.no': 'No',
+  'common.finish': 'Complete',
+  'wizard.next': 'Next',
 };

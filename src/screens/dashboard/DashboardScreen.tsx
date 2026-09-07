@@ -1,21 +1,20 @@
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
-import { Card, SourceBadge, C } from '../../components/ui';
-import { QuickActionCard } from '../../components/cards/QuickActionCard';
+import { Card, C } from '../../components/ui';
 import { useLocalization } from '../../i18n';
+import { downloadFinancialEngine } from '../../utils/download';
 import { useFinancialEngine } from '../../hooks/useFinancialEngine';
 import { getMockBusiness } from '../../data/mockBusiness';
-import { formatCurrency } from '../../utils/formatters';
-import { downloadFinancialEngine, downloadReportPDF } from '../../utils/download';
 import type { Screen, Mode, User, Business, FinancialInputs } from '../../types';
 import {
-  TrendingUp,
-  Download,
   FileSpreadsheet,
+  MapPin,
+  FileText,
   Users,
-  Award,
+  Bot,
+  Receipt,
   ArrowRight,
   Sparkles,
-  MapPin,
+  Wrench,
 } from 'lucide-react';
 
 export function DashboardScreen({
@@ -40,15 +39,6 @@ export function DashboardScreen({
 
   const handleDownloadEngine = () => {
     downloadFinancialEngine(financialInputs, outputs, activeBusinessName);
-  };
-
-  const handleDownloadReport = () => {
-    downloadReportPDF(
-      { ...business, name: activeBusinessName, location: activeLocation },
-      financialInputs,
-      outputs,
-      `${user.firstName} ${user.lastName}`
-    );
   };
 
   return (
@@ -88,7 +78,7 @@ export function DashboardScreen({
           className="border shadow-xs relative overflow-hidden"
           style={{ background: '#EBF7F3', borderColor: '#B8DFD4' }}
         >
-          <div className="flex items-start justify-between gap-2.5 mb-3">
+          <div className="flex items-start justify-between gap-2.5 mb-1">
             <div className="flex items-center gap-2.5 min-w-0 flex-1">
               <span className="text-2xl flex-shrink-0">🥛</span>
               <div className="min-w-0 flex-1">
@@ -101,182 +91,136 @@ export function DashboardScreen({
                 </p>
               </div>
             </div>
-            <SourceBadge type="self" className="flex-shrink-0 mt-0.5" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 pt-2.5 border-t border-primary/15">
-            <div>
-              <p className="text-[10px] font-bold text-muted uppercase tracking-wide">
-                {t('dashboard.yourCapital') || 'Your Capital'}
-              </p>
-              <p className="font-display font-bold text-base text-charcoal mt-0.5">
-                {formatCurrency(financialInputs.ownContribution)}
-              </p>
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-muted uppercase tracking-wide">
-                {t('dashboard.estProfit') || 'Est. Monthly Profit'}
-              </p>
-              <p className="font-display font-bold text-base text-primary mt-0.5">
-                {formatCurrency(outputs.monthlyProfit)}
-              </p>
-            </div>
           </div>
         </Card>
 
-        {/* Financial Highlights Section */}
-        <div>
-          <div className="flex items-center justify-between mb-2.5">
-            <h3 className="font-display font-bold text-base text-charcoal flex items-center gap-1.5">
-              <TrendingUp size={18} className="text-primary" />
-              <span>{t('dashboard.financialMetrics') || 'Business Economics'}</span>
-            </h3>
-            <button
-              type="button"
-              onClick={() => setScreen('financialReport')}
-              className="text-xs font-bold text-teal flex items-center gap-1 hover:underline cursor-pointer"
-            >
-              <span>{t('dashboard.viewAll') || 'View all'}</span>
-              <ArrowRight size={13} />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2.5">
-            <Card variant="white" className="p-3.5 flex flex-col justify-between shadow-xs border" style={{ borderColor: C.border }}>
-              <div className="flex items-center justify-center mb-1.5">
-                <SourceBadge type="local" />
-              </div>
-              <div className="text-center">
-                <p className="font-display font-extrabold text-xl text-teal">
-                  {formatCurrency(outputs.monthlyRevenue)}
-                </p>
-                <p className="text-xs font-semibold text-charcoal mt-0.5">
-                  {t('financial.monthlyRevenue') || 'Monthly Revenue'}
-                </p>
-                <p className="text-[10px] text-muted font-medium mt-0.5">
-                  {financialInputs.dailyOutputUnits}L @ ₹{financialInputs.pricePerUnit}/L
-                </p>
-              </div>
-            </Card>
-
-            <Card variant="white" className="p-3.5 flex flex-col justify-between shadow-xs border" style={{ borderColor: C.border }}>
-              <div className="flex items-center justify-center mb-1.5">
-                <SourceBadge type="model" />
-              </div>
-              <div className="text-center">
-                <p className="font-display font-extrabold text-xl text-terracotta">
-                  {formatCurrency(outputs.monthlyEMI)}
-                </p>
-                <p className="text-xs font-semibold text-charcoal mt-0.5">
-                  {t('financial.estimatedEMI') || 'Estimated Monthly EMI'}
-                </p>
-                <p className="text-[10px] text-muted font-medium mt-0.5">
-                  {Math.round(financialInputs.loanTenureMonths / 12)} yrs @ {financialInputs.interestRate}% p.a.
-                </p>
-              </div>
-            </Card>
-          </div>
-        </div>
-
-        {/* Quick Actions (4 Cards) */}
+        {/* ═══ COLUMN 1: QUICK ACTIONS ═══ */}
         <div>
           <h3 className="font-display font-bold text-base text-charcoal mb-2.5 flex items-center gap-1.5">
             <Sparkles size={18} className="text-gold" />
             <span>{t('dashboard.quickActions') || 'Quick Actions'}</span>
           </h3>
 
-          <div className="grid grid-cols-2 gap-2.5">
-            {/* 1. Download Financial Engine */}
-            <QuickActionCard
-              title={t('dashboard.downloadEngine') || 'Financial Engine'}
-              subtitle={t('dashboard.downloadEngineSub') || 'Export calculations CSV'}
+          <div className="flex flex-col gap-2.5">
+            {/* Excel / Financial Analysis */}
+            <DashboardActionCard
               icon={<FileSpreadsheet size={20} />}
+              iconBg={C.teal}
+              title={t('dashboard.excelAnalysis') || 'Excel / Financial Analysis'}
+              subtitle={t('dashboard.excelAnalysisSub') || 'Export calculations as spreadsheet'}
               onClick={handleDownloadEngine}
-              variant="primary"
             />
 
-            {/* 2. Download Report PDF */}
-            <QuickActionCard
-              title={t('dashboard.downloadReport') || 'Project Report'}
-              subtitle={t('dashboard.downloadReportSub') || 'Printable summary'}
-              icon={<Download size={20} />}
-              onClick={handleDownloadReport}
-              variant="white"
+            {/* Market Competition */}
+            <DashboardActionCard
+              icon={<MapPin size={20} />}
+              iconBg={C.gold}
+              title={t('dashboard.marketCompetition') || 'Market Competition'}
+              subtitle={t('dashboard.marketCompetitionSub') || 'Local demand & competitor analysis'}
+              onClick={() => setScreen('market')}
             />
 
-            {/* 3. Find a Scheme */}
-            <QuickActionCard
-              title={t('dashboard.schemes') || 'Find a Scheme'}
-              subtitle={t('dashboard.schemesSub') || 'Govt funding options'}
-              icon={<Award size={20} />}
-              onClick={() => setScreen('schemes')}
-              variant="white"
-            />
-
-            {/* 4. Network (Coming Soon) */}
-            <QuickActionCard
-              title={t('dashboard.network') || 'Entrepreneur Network'}
-              subtitle={t('dashboard.networkSub') || 'Peer community & buyers'}
-              icon={<Users size={20} />}
-              comingSoon={true}
-              onClick={() => setScreen('network')}
-              variant="sand"
+            {/* Business Report */}
+            <DashboardActionCard
+              icon={<FileText size={20} />}
+              iconBg={C.primary}
+              title={t('dashboard.businessReport') || 'Business Report'}
+              subtitle={t('dashboard.businessReportSub') || 'Complete assessment & downloads'}
+              onClick={() => setScreen('reports')}
             />
           </div>
         </div>
 
-        {/* Modules / Report Navigation */}
+        {/* ═══ COLUMN 2: TOOLS ═══ */}
         <div>
-          <h3 className="font-display font-bold text-base text-charcoal mb-2.5">
-            {t('dashboard.modules') || 'Business Analysis Modules'}
+          <h3 className="font-display font-bold text-base text-charcoal mb-2.5 flex items-center gap-1.5">
+            <Wrench size={18} className="text-teal" />
+            <span>{t('dashboard.tools') || 'Tools'}</span>
           </h3>
 
-          <div className="grid grid-cols-2 gap-2.5">
-            {[
-              {
-                icon: '📊',
-                title: t('nav.financial') || 'Financial Snapshot',
-                desc: 'Project cost & loan',
-                screen: 'financialReport' as Screen,
-              },
-              {
-                icon: '🗓️',
-                title: t('nav.roadmap') || 'Repayment Plan',
-                desc: 'Moratorium & timeline',
-                screen: 'roadmap' as Screen,
-              },
-              {
-                icon: '🗺️',
-                title: t('nav.market') || 'Market & Competition',
-                desc: 'Local density & reach',
-                screen: 'market' as Screen,
-              },
-              {
-                icon: '💡',
-                title: t('nav.swot') || 'SWOT Analysis',
-                desc: 'Strengths & risks',
-                screen: 'swot' as Screen,
-              },
-            ].map((mod, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setScreen(mod.screen)}
-                className="rounded-3xl p-3.5 flex flex-col items-start gap-1.5 transition-all bg-white border active:scale-98 text-left cursor-pointer hover:shadow-sm"
-                style={{ borderColor: C.border }}
-              >
-                <span className="text-2xl">{mod.icon}</span>
-                <div>
-                  <h4 className="font-display font-bold text-xs text-charcoal leading-tight">
-                    {mod.title}
-                  </h4>
-                  <p className="text-[10px] text-muted font-medium mt-0.5">{mod.desc}</p>
-                </div>
-              </button>
-            ))}
+          <div className="flex flex-col gap-2.5">
+            {/* Networking */}
+            <DashboardActionCard
+              icon={<Users size={20} />}
+              iconBg="#8B6BB5"
+              title={t('dashboard.networking') || 'Networking'}
+              subtitle={t('dashboard.networkingSub') || 'Connect with fellow entrepreneurs'}
+              onClick={() => setScreen('network')}
+              comingSoon
+            />
+
+            {/* Agentic AI */}
+            <DashboardActionCard
+              icon={<Bot size={20} />}
+              iconBg={C.terracotta}
+              title={t('dashboard.agenticAI') || 'Agentic AI'}
+              subtitle={t('dashboard.agenticAISub') || 'Autonomous business agent'}
+              onClick={() => setScreen('agenticAI')}
+              comingSoon
+            />
+
+            {/* Invoice System */}
+            <DashboardActionCard
+              icon={<Receipt size={20} />}
+              iconBg="#4A7B6B"
+              title={t('dashboard.invoiceSystem') || 'Invoice System'}
+              subtitle={t('dashboard.invoiceSystemSub') || 'Create & manage invoices'}
+              onClick={() => {}}
+              comingSoon
+            />
           </div>
         </div>
       </div>
     </ScreenWrap>
+  );
+}
+
+// ─── Dashboard Action Card ──────────────────────────────────────────────────
+function DashboardActionCard({
+  icon,
+  iconBg,
+  title,
+  subtitle,
+  onClick,
+  comingSoon = false,
+}: {
+  icon: React.ReactNode;
+  iconBg: string;
+  title: string;
+  subtitle: string;
+  onClick: () => void;
+  comingSoon?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-2xl p-3.5 flex items-center gap-3.5 bg-white border active:scale-98 text-left cursor-pointer hover:shadow-xs transition-all w-full"
+      style={{ borderColor: C.border }}
+    >
+      <div
+        className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white"
+        style={{ background: iconBg }}
+      >
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <h4 className="font-display font-bold text-sm text-charcoal truncate">
+            {title}
+          </h4>
+          {comingSoon && (
+            <span
+              className="px-2 py-0.5 rounded-full text-[9px] font-bold text-white flex-shrink-0"
+              style={{ background: C.gold }}
+            >
+              Soon
+            </span>
+          )}
+        </div>
+        <p className="text-[11px] text-muted truncate mt-0.5">{subtitle}</p>
+      </div>
+      <ArrowRight size={16} className="text-muted flex-shrink-0" />
+    </button>
   );
 }

@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { LocalizationProvider, useLocalization } from './i18n';
 import { HighlightProvider } from './hooks/useHighlight';
 import { PhoneFrame } from './components/layout/PhoneFrame';
-import type { Screen, Mode, User, Business, FinancialInputs, Scheme, SchemeDiscoveryAnswers } from './types';
+import type { Screen, Mode, User, Business, FinancialInputs, ScorecardData, Scheme, SchemeDiscoveryAnswers } from './types';
 import { mockUser } from './data/mockUser';
 import { getMockBusiness } from './data/mockBusiness';
 import { mockFinancialInputs } from './data/mockFinancial';
+import { getMockScorecardData } from './data/mockScorecard';
 
 // Screen imports
 import { SplashScreen } from './screens/onboarding/SplashScreen';
@@ -19,6 +20,8 @@ import { BrainDumpScreen } from './screens/onboarding/BrainDumpScreen';
 import { HeardScreen } from './screens/onboarding/HeardScreen';
 import { ScoreScreen } from './screens/onboarding/ScoreScreen';
 import { WizardScreen } from './screens/wizard/WizardScreen';
+import { ProcessingScreen } from './screens/scorecard/ProcessingScreen';
+import { ScorecardScreen } from './screens/scorecard/ScorecardScreen';
 import { DashboardScreen } from './screens/dashboard/DashboardScreen';
 import { ReportsScreen } from './screens/reports/ReportsScreen';
 import { FinancialReportScreen } from './screens/financial/FinancialReportScreen';
@@ -38,17 +41,27 @@ import { SchemeDetailScreen } from './screens/schemes/SchemeDetailScreen';
 function AppContent() {
   const { language } = useLocalization();
   const [screen, setScreenState] = useState<Screen>('splash');
-  const [moduleReturnScreen, setModuleReturnScreen] = useState<Screen>('dashboard');
+  
+  // Navigation history stack for proper back behavior
+  const historyRef = useRef<Screen[]>([]);
 
-  const setScreen = (newScreen: Screen) => {
-    if (
-      ['dashboard', 'reports', 'settings', 'schemes', 'profile'].includes(screen) &&
-      !['dashboard', 'reports', 'settings', 'schemes', 'profile'].includes(newScreen)
-    ) {
-      setModuleReturnScreen(screen);
+  const setScreen = useCallback((newScreen: Screen) => {
+    // Push current screen to history before navigating
+    historyRef.current.push(screen);
+    // Keep history manageable
+    if (historyRef.current.length > 20) {
+      historyRef.current = historyRef.current.slice(-15);
     }
     setScreenState(newScreen);
-  };
+  }, [screen]);
+
+  const goBack = useCallback(() => {
+    const prev = historyRef.current.pop();
+    if (prev) {
+      setScreenState(prev);
+    }
+  }, []);
+
   const [mode, setMode] = useState<Mode>('assisted');
   const [user, setUser] = useState<User>(mockUser);
   const [business, setBusiness] = useState<Business>(() => getMockBusiness(language));
@@ -56,15 +69,22 @@ function AppContent() {
   const [userEditedBusiness, setUserEditedBusiness] = useState(false);
   const [selectedScheme, setSelectedScheme] = useState<Scheme | null>(null);
   const [schemeAnswers, setSchemeAnswers] = useState<SchemeDiscoveryAnswers>({});
+  const [scorecardData, setScorecardData] = useState<ScorecardData>(() => getMockScorecardData(language));
+  const [loanSelected, setLoanSelected] = useState(false);
 
   useEffect(() => {
+    setScorecardData((prev) => ({
+      ...getMockScorecardData(language),
+      loanIntent: prev.loanIntent, // Preserve loan intent across language switches
+    }));
     if (!userEditedBusiness) {
       setBusiness(getMockBusiness(language));
     }
   }, [language, userEditedBusiness]);
 
   const resetToStart = () => {
-    setScreen('splash');
+    historyRef.current = [];
+    setScreenState('splash');
   };
 
   const renderScreen = () => {
@@ -90,7 +110,7 @@ function AppContent() {
               setUser((prev) => ({ ...prev, phone }));
               setScreen('otp');
             }}
-            onBack={() => setScreen('language')}
+            onBack={goBack}
           />
         );
 
@@ -99,7 +119,7 @@ function AppContent() {
           <OtpScreen
             phone={user.phone}
             onNext={() => setScreen('idCreation')}
-            onBack={() => setScreen('login')}
+            onBack={goBack}
           />
         );
 
@@ -111,7 +131,7 @@ function AppContent() {
               setUser((prev) => ({ ...prev, ...updatedUser }));
               setScreen('location');
             }}
-            onBack={() => setScreen('otp')}
+            onBack={goBack}
           />
         );
 
@@ -120,7 +140,7 @@ function AppContent() {
           <LocationScreen
             location={`${user.location}, ${user.state}`}
             onNext={() => setScreen('mode')}
-            onBack={() => setScreen('idCreation')}
+            onBack={goBack}
           />
         );
 
@@ -130,7 +150,7 @@ function AppContent() {
             currentMode={mode}
             setMode={setMode}
             onNext={() => setScreen('brainDump')}
-            onBack={() => setScreen('location')}
+            onBack={goBack}
           />
         );
 
@@ -145,7 +165,7 @@ function AppContent() {
               setBusiness((prev) => ({ ...prev, brainDumpText: text }));
               setScreen('heard');
             }}
-            onBack={() => setScreen('mode')}
+            onBack={goBack}
           />
         );
 
@@ -161,7 +181,7 @@ function AppContent() {
               }
               setScreen('score');
             }}
-            onBack={() => setScreen('brainDump')}
+            onBack={goBack}
           />
         );
 
@@ -169,8 +189,20 @@ function AppContent() {
         return (
           <ScoreScreen
             mode={mode}
-            onNext={() => setScreen('wizard')}
-            onBack={() => setScreen('heard')}
+            onNext={() => setScreen('wizard-loading')}
+            onBack={goBack}
+          />
+        );
+      case 'wizard-loading':
+        return (
+          <ProcessingScreen
+            onComplete={() => setScreen('wizard')}
+            customSteps={[
+              'Saving profile context',
+              'Analyzing location dynamics',
+              'Determining required inputs',
+              'Preparing adaptive questions',
+            ]}
           />
         );
 
@@ -191,9 +223,31 @@ function AppContent() {
                   setFinancialInputs((prev) => ({ ...prev, pricePerUnit: priceNum }));
                 }
               }
-              setScreen('dashboard');
+              setScreen('processing');
             }}
-            onBack={() => setScreen('score')}
+            onBack={goBack}
+          />
+        );
+
+      // ── Processing → Scorecard ──
+      case 'processing':
+        return (
+          <ProcessingScreen
+            onComplete={() => setScreen('scorecard')}
+          />
+        );
+
+      case 'scorecard':
+        return (
+          <ScorecardScreen
+            scorecardData={scorecardData}
+            financialInputs={financialInputs}
+            mode={mode}
+            setScreen={setScreen}
+            onLoanIntent={(intent) => {
+              setScorecardData((prev) => ({ ...prev, loanIntent: intent }));
+              setLoanSelected(intent === 'yes');
+            }}
           />
         );
 
@@ -215,8 +269,11 @@ function AppContent() {
           <ReportsScreen
             business={business}
             financialInputs={financialInputs}
+            scorecardData={scorecardData}
             mode={mode}
             setScreen={setScreen}
+            loanSelected={loanSelected}
+            onBack={goBack}
           />
         );
 
@@ -226,7 +283,7 @@ function AppContent() {
             financialInputs={financialInputs}
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen(moduleReturnScreen)}
+            onBack={goBack}
           />
         );
 
@@ -236,7 +293,7 @@ function AppContent() {
             financialInputs={financialInputs}
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('financialReport')}
+            onBack={goBack}
           />
         );
 
@@ -245,7 +302,7 @@ function AppContent() {
           <MarketScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('roadmap')}
+            onBack={goBack}
           />
         );
 
@@ -254,7 +311,7 @@ function AppContent() {
           <SwotScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('market')}
+            onBack={goBack}
           />
         );
 
@@ -263,7 +320,7 @@ function AppContent() {
           <PricingScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('swot')}
+            onBack={goBack}
           />
         );
 
@@ -272,7 +329,7 @@ function AppContent() {
           <InsightScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen('pricing')}
+            onBack={goBack}
           />
         );
 
@@ -295,11 +352,11 @@ function AppContent() {
             setUser={setUser}
             mode={mode}
             setMode={setMode}
-            onBack={() => setScreen('dashboard')}
+            onBack={goBack}
           />
         );
 
-      // ── Schemes ──
+      // ── Schemes (kept for back-compat but not in primary flow) ──
       case 'schemes':
         return (
           <SchemesScreen
@@ -318,7 +375,7 @@ function AppContent() {
                setSchemeAnswers(ans);
                setScreen('schemes');
             }}
-            onBack={() => setScreen('schemes')}
+            onBack={goBack}
           />
         );
 
@@ -328,7 +385,7 @@ function AppContent() {
             scheme={selectedScheme}
             fit={schemeAnswers.amount ? 'highly_relevant' : 'relevant'}
             mode={mode}
-            onBack={() => setScreen('schemes')}
+            onBack={goBack}
           />
         );
 
@@ -338,7 +395,7 @@ function AppContent() {
           <AgenticAIScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen(moduleReturnScreen)}
+            onBack={goBack}
           />
         );
 
@@ -347,7 +404,7 @@ function AppContent() {
           <NetworkScreen
             mode={mode}
             setScreen={setScreen}
-            onBack={() => setScreen(moduleReturnScreen)}
+            onBack={goBack}
           />
         );
 

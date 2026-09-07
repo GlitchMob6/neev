@@ -1,4 +1,4 @@
-export const en = {
+export const en: Record<string, string> = {
   // ─── Common ───────────────────────────────────────────────────────────
   'common.continue': 'Continue',
   'common.back': 'Go back',
@@ -381,8 +381,73 @@ export const en = {
   'assistant.schemes': 'Let me help you find the right government support for your business.',
   'assistant.schemeWiz': 'I will use these details to find schemes that match your profile.',
   'assistant.schemeDetail': 'This scheme looks like a good match based on your requirement. Make sure to verify eligibility.',
+  'assistant.scorecard': 'This is your complete business assessment. Scroll through to see your understanding, viability, and financing options.',
   'dashboard.schemes': 'Find a Scheme',
   'dashboard.schemesSub': 'Govt funding options',
+
+  // ─── Dashboard Restructured ───────────────────────────────────────────
+  'dashboard.excelAnalysis': 'Excel / Financial Analysis',
+  'dashboard.excelAnalysisSub': 'Export calculations as spreadsheet',
+  'dashboard.marketCompetition': 'Market Competition',
+  'dashboard.marketCompetitionSub': 'Local demand & competitor analysis',
+  'dashboard.businessReport': 'Business Report',
+  'dashboard.businessReportSub': 'Complete assessment & downloads',
+  'dashboard.tools': 'Tools',
+  'dashboard.networking': 'Networking',
+  'dashboard.networkingSub': 'Connect with fellow entrepreneurs',
+  'dashboard.invoiceSystem': 'Invoice System',
+  'dashboard.invoiceSystemSub': 'Create & manage invoices',
+
+  // ─── Scorecard ────────────────────────────────────────────────────────
+  'scorecard.badge': 'Your Assessment',
+  'scorecard.title': 'Your Neev Scorecard',
+  'scorecard.understanding': 'Your Understanding',
+  'scorecard.understandingDesc': 'How well you understand your market and business',
+  'scorecard.usp': 'Your USP',
+  'scorecard.viability': 'Business Viability',
+  'scorecard.loanQuestion': 'Do you want to apply for a loan?',
+  'scorecard.loanQuestionSub': 'Neev can suggest a financing plan based on your assessment',
+  'scorecard.schemePossibility': 'Suggested Scheme',
+  'scorecard.eligible': 'Eligible',
+  'scorecard.microfinanceDesc': 'For total requirements up to ₹1.4 lakh at 6% interest over 3 years',
+  'scorecard.termLoanDesc': 'For total requirements up to ₹50 lakh at 8% interest over 7 years',
+  'scorecard.capitalMargin': 'Capital & Margin',
+  'scorecard.yourContribution': 'Your Contribution',
+  'scorecard.loanAmount': 'Loan Amount',
+  'scorecard.total': 'Total',
+  'scorecard.emiCalculator': 'EMI Calculator',
+  'scorecard.indicativeEmi': 'Indicative Monthly EMI',
+  'scorecard.repaymentPlan': 'Repayment Plan',
+  'scorecard.moratoriumNote': 'No EMI during initial setup period. Interest accrues.',
+  'scorecard.repaymentDisclaimer': 'Estimated repayment. Actual terms may vary.',
+  'scorecard.reportPreview': 'Business Report Preview',
+  'scorecard.reportPreviewDesc': 'Your complete assessment is ready to view',
+  'scorecard.viewReport': 'View Report',
+
+  // ─── Viability Dimensions ─────────────────────────────────────────────
+  'viability.localDemand': 'Local demand',
+  'viability.competition': 'Competition',
+  'viability.capitalAdequacy': 'Capital adequacy',
+  'viability.profitPotential': 'Profit potential',
+  'viability.supplyAvailability': 'Supply availability',
+  'viability.loanRepayment': 'Loan repayment capacity',
+  'viability.risk': 'Risk',
+
+  // ─── Reports Restructured ─────────────────────────────────────────────
+  'reports.businessSnapshot': 'Business Snapshot',
+  'reports.marketUnderstanding': 'Market Understanding',
+  'reports.viability': 'Business Viability',
+  'reports.financialPicture': 'Financial Picture',
+  'reports.financing': 'Financing Recommendation',
+  'reports.usp': 'Your USP',
+  'reports.yourCorner': 'Your Corner',
+  'reports.downloadExcel': 'Download Excel',
+
+  // ─── Common additions ─────────────────────────────────────────────────
+  'common.yes': 'Yes',
+  'common.no': 'No',
+  'common.finish': 'Complete',
+  'wizard.next': 'Next',
 };
 
 export type TranslationKeys = keyof typeof en;

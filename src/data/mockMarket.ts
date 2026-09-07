@@ -1,6 +1,6 @@
 import type { MarketData, SwotItem, Language } from '../types';
 
-export const mockMarketDataByLang: Record<Language, MarketData> = {
+export const mockMarketDataByLang = {
   en: {
     localDemand: 'Strong',
     competitorDensity: 'Moderate',
@@ -52,9 +52,26 @@ export const mockMarketDataByLang: Record<Language, MarketData> = {
       { label: 'मूल्यवर्धित (दही/पनीर)', percentage: 10, color: '#C9674B' },
     ],
   },
-};
+  ta: {
+    localDemand: 'வலுவானது',
+    competitorDensity: 'மிதமானது',
+    customerOpportunity: 'நம்பிக்கைக்குரியது',
+    priceRange: { min: 56, max: 80 },
+    competitors: [
+      { name: 'நாசிக் பால் மையம்', distance: '0.3 கிமீ', type: 'பால் சில்லறை விற்பனை', status: 'நிறுவப்பட்டது', source: 'local' },
+      { name: 'பாட்டீல் பால் கடை', distance: '0.7 கிமீ', type: 'பால் + தயிர்', status: 'நடுத்தரம்', source: 'local' },
+      { name: 'பிரெஷ் பண்ணை பால்', distance: '1.2 கிமீ', type: 'பால் + நெய்', status: 'பெரியது', source: 'govt' },
+    ],
+    revenueBreakdown: [
+      { label: 'வீட்டு விநியோகங்கள்', percentage: 35, color: '#176B52' },
+      { label: 'உள்ளூர் சில்லறை விற்பனை', percentage: 30, color: '#2C9C78' },
+      { label: 'டீ கடைகள் & ஹோட்டல்கள்', percentage: 25, color: '#D9A441' },
+      { label: 'மதிப்பு கூட்டப்பட்டவை (தயிர்/பனீர்)', percentage: 10, color: '#C9674B' },
+    ],
+  },
+} as Record<Language, MarketData>;
 
-export const mockSwotDataByLang: Record<Language, SwotItem[]> = {
+export const mockSwotDataByLang = {
   en: [
     {
       title: 'Strengths',
@@ -157,7 +174,41 @@ export const mockSwotDataByLang: Record<Language, SwotItem[]> = {
       icon: '◌',
     },
   ],
-};
+  ta: [
+    {
+      title: 'பலங்கள் (Strengths)',
+      items: ['உள்ளூர் தேவை வலுவாக உள்ளது', 'உங்களுக்கு ஏற்கனவே வழக்கமான வாடிக்கையாளர்கள் உள்ளனர்', 'குறைந்த இயந்திர நுழைவு செலவு'],
+      color: '#2C9C78',
+      bgColor: '#EBF7F3',
+      borderColor: '#B8DFD4',
+      icon: '◆',
+    },
+    {
+      title: 'கவனிக்க வேண்டியவை (Watch closely)',
+      items: ['போட்டி மிதமாக உள்ளது', 'பால் விலை பருவகால மாற்றங்கள்', 'கெடாமல் பாதுகாக்கும் சங்கிலி நிலைத்தன்மை'],
+      color: '#D9A441',
+      bgColor: '#FFF8EC',
+      borderColor: '#F5D88A',
+      icon: '◎',
+    },
+    {
+      title: 'வாய்ப்புகள் (Opportunities)',
+      items: ['காலை வீட்டு விநியோக சந்தா', 'டீ ஸ்டால்கள் மற்றும் ஹோட்டல்களுக்கு மொத்த விநியோகம்', 'மதிப்பு கூட்டப்பட்டவை: தயிர், பனீர் மற்றும் நெய்'],
+      color: '#176B52',
+      bgColor: '#EBF7F3',
+      borderColor: '#B8DFD4',
+      icon: '↗',
+    },
+    {
+      title: 'உள்ளூர் அச்சுறுத்தல்கள் (Local threats)',
+      items: ['இடைத்தரகர்களால் விலை குறைப்பு', 'கோடையில் பால் உற்பத்தி குறைவு', 'அக்கம்பக்கத்தில் புதிய போட்டியாளர்கள்'],
+      color: '#C9674B',
+      bgColor: '#FEF3ED',
+      borderColor: '#F5C4B0',
+      icon: '◌',
+    },
+  ],
+} as Record<Language, SwotItem[]>;
 
 export const mockMarketData = mockMarketDataByLang.en;
 export const mockSwotData = mockSwotDataByLang.en;
