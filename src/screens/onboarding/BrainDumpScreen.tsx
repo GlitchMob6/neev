@@ -29,7 +29,7 @@ export function BrainDumpScreen({
     }
   }, [language]);
 
-  const { state: voiceState, startListening, stopListening } = useVoiceAssistant(language);
+  const { state: voiceState, startListening, stopListening } = useVoiceAssistant();
   const isListening = voiceState === 'listening';
 
   const toggleListening = () => {
