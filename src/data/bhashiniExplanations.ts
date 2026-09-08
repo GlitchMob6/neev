@@ -1,5 +1,5 @@
 /**
- * Bhashini page/section explanation content
+ * Assistant page/section explanation content
  * Used by the floating assistant to explain the current context
  */
 
@@ -9,7 +9,7 @@ export interface PageExplanation {
   sections?: { id: string; explanation: string }[];
 }
 
-export const bhashiniExplanations: Record<string, PageExplanation> = {
+export const assistantExplanations: Record<string, PageExplanation> = {
   scorecard: {
     page: 'scorecard',
     overview: 'Is page mein aap apne business ki poori assessment dekh sakte hain — aapki samajh, USP, aur business viability.',
