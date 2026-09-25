@@ -1,162 +1,183 @@
-import { useState } from 'react';
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
-import { Card, Button, C } from '../../components/ui';
+import { Card, C } from '../../components/ui';
 import { useLocalization } from '../../i18n';
-import { mockSchemes } from '../../data/mockSchemes';
-import type { Screen, Mode, Scheme, Business } from '../../types';
-import { Search, ChevronRight } from 'lucide-react';
+import {
+  getApplicableScheme,
+  calculateMarginAndLoan,
+  calculateEMI,
+} from '../../utils/financialCalculations';
+import { formatCurrency } from '../../utils/formatters';
+import type { Screen, Mode, Scheme, Business, FinancialInputs } from '../../types';
+import { Award, Info, Calendar, Percent, Clock } from 'lucide-react';
 
 export function SchemesScreen({
   business,
+  financialInputs,
   mode,
   setScreen,
   onSchemeSelect,
 }: {
   business?: Business;
+  financialInputs?: FinancialInputs;
   mode?: Mode;
   setScreen: (s: Screen) => void;
   onSchemeSelect: (scheme: Scheme) => void;
 }) {
   const { t } = useLocalization();
-  const [searchQuery, setSearchQuery] = useState('');
-  
-  // Seeded demo business check
-  const isDemoDairy = business?.location === 'Nashik' && (business?.category?.includes('Dairy') || business?.category?.includes('डेयरी') || business?.category?.includes('डेअरी'));
-  const pmmyScheme = mockSchemes.find(s => s.id === 'pm-mudra');
+
+  const projectCost = financialInputs?.totalProjectCost || 140000;
+  const scheme = getApplicableScheme(projectCost);
+  const { margin, loanAmount } = calculateMarginAndLoan(projectCost);
+  const emi = scheme ? calculateEMI(loanAmount, scheme.interestRate, scheme.tenureMonths - scheme.moratoriumMonths) : 0;
 
   return (
     <ScreenWrap
       mode={mode}
+      onBack={() => setScreen('tools')}
       showNav={true}
-      navScreen="schemes"
+      navScreen="tools"
       setScreen={setScreen}
-      assistantMessage={t('assistant.schemes') || 'Let me help you find the right government support for your business.'}
+      assistantMessage={t('assistant.schemes') || 'Your applicable scheme is automatically determined based on your project cost.'}
     >
        <div className="flex flex-col gap-5 pt-2 pb-6">
         <div>
           <h1 className="font-display font-bold text-2xl text-charcoal leading-tight">
-            {t('schemes.title') || 'Government Schemes'}
+            {t('schemes.title') || 'Applicable Scheme'}
           </h1>
           <p className="mt-1 text-sm text-muted leading-relaxed">
-            {t('schemes.subtitle') || 'Discover funding and support options relevant to your business.'}
+            {t('schemes.autoSubtitle') || 'Automatically determined from your project cost.'}
           </p>
         </div>
 
-        {/* Search */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <Search size={18} color={C.muted} />
+        {/* Project Cost Summary */}
+        <Card variant="white" className="p-4 shadow-xs border" style={{ borderColor: C.border }}>
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-muted uppercase tracking-wider">
+              Total Project Cost
+            </span>
+            <span className="font-display font-extrabold text-lg" style={{ color: C.primary }}>
+              {formatCurrency(projectCost)}
+            </span>
           </div>
-          <input
-            type="text"
-            className="block w-full pl-11 pr-4 py-3.5 rounded-2xl text-sm outline-none"
-            style={{ background: '#fff', border: `1.5px solid ${C.border}`, color: C.charcoal }}
-            placeholder={t('schemes.search') || 'Search schemes, loans...'}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        {/* Wizard CTA */}
-        <Card variant="green" className="flex flex-col gap-3 p-4">
-          <div className="flex gap-3">
-             <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white flex-shrink-0 shadow-sm text-xl">
-               🎯
-             </div>
-             <div>
-               <h3 className="font-bold text-charcoal">{t('schemes.findFit') || 'Find your perfect fit'}</h3>
-               <p className="text-xs text-muted leading-relaxed mt-0.5">
-                 {t('schemes.findFitDesc') || 'Answer 3 simple questions and we will recommend the best options.'}
-               </p>
-             </div>
-          </div>
-          <Button 
-            label={t('schemes.startWizard') || 'Find Schemes'} 
-            onClick={() => setScreen('schemeDiscovery')}
-            className="mt-1"
-          />
         </Card>
 
-        {/* Recommended for Your Business (if demo dairy) */}
-        {isDemoDairy && pmmyScheme && (
-          <div className="flex flex-col gap-3 mt-2">
-            <div className="flex items-center justify-between">
-              <h2 className="font-bold text-sm text-terracotta tracking-wide uppercase">
-                {t('schemes.recommendedForYou') || 'Recommended For Your Business'}
-              </h2>
-            </div>
-            <button 
-              onClick={() => {
-                onSchemeSelect(pmmyScheme);
-                setScreen('schemeDetail');
-              }}
-              className="flex flex-col gap-2 rounded-3xl p-4 text-left transition-all active:scale-98 bg-white cursor-pointer shadow-md"
-              style={{ border: `2px solid ${C.primary}` }}
+        {scheme ? (
+          <>
+            {/* Applicable Scheme Card */}
+            <Card
+              variant="custom"
+              className="border shadow-xs p-5"
+              style={{ background: '#EBF7F3', borderColor: '#B8DFD4' }}
             >
-              <div className="flex justify-between items-start w-full">
-                <h3 className="font-bold text-charcoal text-base pr-2 leading-tight">
-                  {t(pmmyScheme.nameKey) || 'Pradhan Mantri MUDRA Yojana'}
-                </h3>
-                <div className="p-1.5 rounded-full text-white bg-primary">
-                  <ChevronRight size={16} />
+              <div className="flex items-center gap-2 mb-3">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-white"
+                  style={{ background: C.primary }}
+                >
+                  <Award size={22} />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-display font-bold text-base text-charcoal">
+                    {scheme.name}
+                  </h3>
+                  <span
+                    className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white inline-block mt-0.5"
+                    style={{ background: C.teal }}
+                  >
+                    Applicable
+                  </span>
                 </div>
               </div>
-              <p className="text-sm text-muted">
-                {t('schemes.demoReason') || 'Based on your Dairy business profile and capital needs, this scheme offers collateral-free loans to help you start.'}
+
+              <p className="text-xs text-muted leading-relaxed mb-4">
+                {scheme.type === 'microfinance'
+                  ? `For project costs up to ₹1.40 Lakh. Designed for micro-enterprises with subsidized interest rates and shorter tenure.`
+                  : `For project costs between ₹1.40 Lakh and ₹50.00 Lakh. Standard term loan for small and medium enterprises.`}
               </p>
-              <div className="flex gap-2 mt-1.5 flex-wrap">
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md" style={{ background: C.sand, color: C.charcoal }}>
-                  {t(pmmyScheme.loanRangeKey) || 'Up to ₹10 Lakhs'}
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-green-50 text-teal-700" style={{ background: '#EBF7F3', color: C.teal }}>
-                  {t(pmmyScheme.intendedForKey) || 'Micro Enterprises'}
-                </span>
+
+              {/* Scheme Details Grid */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-xl p-3 bg-white border" style={{ borderColor: C.border }}>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Percent size={14} className="text-teal" />
+                    <span className="text-[10px] font-bold text-muted uppercase">Interest Rate</span>
+                  </div>
+                  <p className="font-display font-bold text-base text-charcoal">
+                    {scheme.interestRate}% <span className="text-xs font-normal text-muted">p.a.</span>
+                  </p>
+                </div>
+                <div className="rounded-xl p-3 bg-white border" style={{ borderColor: C.border }}>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Calendar size={14} className="text-teal" />
+                    <span className="text-[10px] font-bold text-muted uppercase">Tenure</span>
+                  </div>
+                  <p className="font-display font-bold text-base text-charcoal">
+                    {scheme.tenureYears} <span className="text-xs font-normal text-muted">years</span>
+                  </p>
+                </div>
+                <div className="rounded-xl p-3 bg-white border" style={{ borderColor: C.border }}>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <Clock size={14} className="text-gold" />
+                    <span className="text-[10px] font-bold text-muted uppercase">Moratorium</span>
+                  </div>
+                  <p className="font-display font-bold text-base text-charcoal">
+                    {scheme.moratoriumMonths} <span className="text-xs font-normal text-muted">months</span>
+                  </p>
+                </div>
+                <div className="rounded-xl p-3 bg-white border" style={{ borderColor: C.border }}>
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className="text-sm">💰</span>
+                    <span className="text-[10px] font-bold text-muted uppercase">Loan Amount</span>
+                  </div>
+                  <p className="font-display font-bold text-base" style={{ color: C.primary }}>
+                    {formatCurrency(loanAmount)}
+                  </p>
+                </div>
               </div>
-            </button>
-          </div>
+            </Card>
+
+            {/* Capital Breakdown */}
+            <Card variant="white" className="p-4 shadow-xs border" style={{ borderColor: C.border }}>
+              <h4 className="font-display font-bold text-sm text-charcoal mb-3">Capital Breakdown</h4>
+              <div className="flex flex-col gap-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-muted">Your Margin (10%)</span>
+                  <span className="font-bold text-charcoal">{formatCurrency(margin)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted">Loan Amount (90%)</span>
+                  <span className="font-bold text-charcoal">{formatCurrency(loanAmount)}</span>
+                </div>
+                <div className="flex justify-between pt-2 border-t" style={{ borderColor: C.border }}>
+                  <span className="font-bold text-charcoal">Indicative EMI</span>
+                  <span className="font-display font-bold text-sm" style={{ color: C.primary }}>
+                    {formatCurrency(Math.round(emi))}<span className="text-[10px] font-normal text-muted"> /mo</span>
+                  </span>
+                </div>
+              </div>
+            </Card>
+          </>
+        ) : (
+          /* No Applicable Scheme */
+          <Card variant="white" className="p-5 shadow-xs border text-center" style={{ borderColor: C.border }}>
+            <p className="text-sm text-muted">
+              No applicable scheme found for your current project cost.
+            </p>
+            <p className="text-xs text-muted mt-1">
+              Schemes are available for project costs up to ₹50.00 Lakh.
+            </p>
+          </Card>
         )}
 
-        {/* List of Schemes */}
-        <div className="flex flex-col gap-3">
-           <div className="flex items-center justify-between">
-             <h2 className="font-bold text-lg text-charcoal">
-               {t('schemes.popular') || 'Popular Schemes'}
-             </h2>
-           </div>
-           
-           <div className="flex flex-col gap-3">
-             {mockSchemes.map(scheme => (
-               <button 
-                 key={scheme.id}
-                 onClick={() => {
-                   onSchemeSelect(scheme);
-                   setScreen('schemeDetail');
-                 }}
-                 className="flex flex-col gap-2 rounded-3xl p-4 text-left transition-all active:scale-98 bg-white cursor-pointer hover:shadow-md"
-                 style={{ border: `1px solid ${C.border}` }}
-               >
-                  <div className="flex justify-between items-start w-full">
-                    <h3 className="font-bold text-charcoal text-base pr-2 leading-tight">
-                      {t(scheme.nameKey) || scheme.id}
-                    </h3>
-                    <div className="p-1.5 rounded-full text-primary" style={{ background: C.sand }}>
-                       <ChevronRight size={16} />
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted line-clamp-2">
-                    {t(scheme.shortDescKey) || 'Description'}
-                  </p>
-                  <div className="flex gap-2 mt-1 flex-wrap">
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md" style={{ background: C.sand, color: C.charcoal }}>
-                      {t(scheme.loanRangeKey) || 'Amount'}
-                    </span>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md bg-green-50 text-teal-700" style={{ background: '#EBF7F3', color: C.teal }}>
-                      {t(scheme.intendedForKey) || 'Target'}
-                    </span>
-                  </div>
-               </button>
-             ))}
-           </div>
+        {/* Info Banner */}
+        <div
+          className="rounded-2xl p-3.5 flex items-start gap-2.5 border"
+          style={{ background: '#FFF8EC', borderColor: '#F5D88A' }}
+        >
+          <Info size={18} className="text-gold flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-[#8B6914] leading-relaxed">
+            The applicable scheme is determined automatically based on your total project cost. Interest rates and terms are indicative.
+          </p>
         </div>
        </div>
     </ScreenWrap>

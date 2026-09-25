@@ -35,7 +35,7 @@ export function ToolsScreen({
           </h1>
           <p className="mt-1 text-xs text-muted leading-relaxed">
             {t('tools.subtitle') ||
-              'Access financial analysis, market checks, agentic AI, and official schemes.'}
+              'Access financial analysis, market insights, schemes, and more.'}
           </p>
         </div>
 

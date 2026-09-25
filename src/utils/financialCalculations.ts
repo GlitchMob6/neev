@@ -8,7 +8,7 @@ export const MICROFINANCE_SCHEME: NeevScheme = {
   maxAmount: 140000,
   marginPercent: 10,
   loanPercent: 90,
-  interestRate: 6,
+  interestRate: 6.5,
   tenureYears: 3,
   tenureMonths: 36,
   moratoriumMonths: 3,

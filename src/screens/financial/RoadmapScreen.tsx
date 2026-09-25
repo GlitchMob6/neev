@@ -33,7 +33,7 @@ export function RoadmapScreen({
       onBack={onBack}
       mode={mode}
       showNav={true}
-      navScreen="reports"
+      navScreen="tools"
       setScreen={setScreen}
       assistantMessage={t('assistant.roadmap')}
     >
@@ -142,9 +142,10 @@ export function RoadmapScreen({
 
         <div className="pt-2">
           <Button
-            label={t('roadmap.seeMarket') || 'View market & competition'}
-            onClick={() => setScreen('market')}
-            icon="→"
+            label={t('common.backToTools') || 'Back to Tools'}
+            onClick={() => setScreen('tools')}
+            icon="←"
+            variant="secondary"
           />
         </div>
       </div>

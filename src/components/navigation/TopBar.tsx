@@ -1,7 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
 import { ModeBadge } from '../badges/ModeBadge';
 import { ProgressBar } from '../ui';
-import { LanguageControl } from './LanguageControl';
 import type { Mode } from '../../types';
 
 export function TopBar({
@@ -42,7 +41,6 @@ export function TopBar({
         <div className="flex items-center gap-2">
           {mode && <ModeBadge mode={mode} onClick={onModeClick} />}
           {rightAction}
-          <LanguageControl compact={Boolean(mode && rightAction)} />
         </div>
       </div>
 

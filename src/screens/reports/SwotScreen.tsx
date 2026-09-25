@@ -22,7 +22,7 @@ export function SwotScreen({
       onBack={onBack}
       mode={mode}
       showNav={true}
-      navScreen="reports"
+      navScreen="tools"
       setScreen={setScreen}
       assistantMessage={t('assistant.swot')}
     >
@@ -53,9 +53,10 @@ export function SwotScreen({
 
         <div className="pt-2">
           <Button
-            label={t('swot.seePricing') || 'See pricing guidance'}
-            onClick={() => setScreen('pricing')}
-            icon="→"
+            label={t('common.backToTools') || 'Back to Tools'}
+            onClick={() => setScreen('tools')}
+            icon="←"
+            variant="secondary"
           />
         </div>
       </div>

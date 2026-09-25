@@ -22,7 +22,7 @@ export function MarketScreen({
       onBack={onBack}
       mode={mode}
       showNav={true}
-      navScreen="reports"
+      navScreen="tools"
       setScreen={setScreen}
       assistantMessage={t('assistant.market')}
     >
@@ -95,9 +95,10 @@ export function MarketScreen({
 
         <div className="pt-2">
           <Button
-            label={t('market.seeSwot') || 'See strengths & risks'}
-            onClick={() => setScreen('swot')}
-            icon="→"
+            label={t('common.backToTools') || 'Back to Tools'}
+            onClick={() => setScreen('tools')}
+            icon="←"
+            variant="secondary"
           />
         </div>
       </div>

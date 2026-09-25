@@ -14,17 +14,12 @@ import { LoginScreen } from './screens/onboarding/LoginScreen';
 import { OtpScreen } from './screens/onboarding/OtpScreen';
 import { IdCreationScreen } from './screens/onboarding/IdCreationScreen';
 import { LocationScreen } from './screens/onboarding/LocationScreen';
-import { LanguageScreen } from './screens/onboarding/LanguageScreen';
-import { ModeScreen } from './screens/onboarding/ModeScreen';
-import { BusinessSelectionScreen } from './screens/onboarding/BusinessSelectionScreen';
 import { BrainDumpScreen } from './screens/onboarding/BrainDumpScreen';
 import { BusinessTeaserScreen } from './screens/teaser/BusinessTeaserScreen';
-import { CommonQuestionnaireScreen } from './screens/questionnaire/CommonQuestionnaireScreen';
-import { AdaptiveQuestionnaireScreen } from './screens/questionnaire/AdaptiveQuestionnaireScreen';
-import { SchemesRecommendationScreen } from './screens/schemes/SchemesRecommendationScreen';
 import { HeardScreen } from './screens/onboarding/HeardScreen';
 import { ScoreScreen } from './screens/onboarding/ScoreScreen';
-import { WizardScreen } from './screens/wizard/WizardScreen';
+import { CommonQuestionnaireScreen } from './screens/questionnaire/CommonQuestionnaireScreen';
+import { AdaptiveQuestionnaireScreen } from './screens/questionnaire/AdaptiveQuestionnaireScreen';
 import { ProcessingScreen } from './screens/scorecard/ProcessingScreen';
 import { ScorecardScreen } from './screens/scorecard/ScorecardScreen';
 import { DashboardScreen } from './screens/dashboard/DashboardScreen';
@@ -37,10 +32,8 @@ import { PricingScreen } from './screens/reports/PricingScreen';
 import { InsightScreen } from './screens/reports/InsightScreen';
 import { SettingsScreen } from './screens/settings/SettingsScreen';
 import { ProfileScreen } from './screens/profile/ProfileScreen';
-import { AgenticAIScreen } from './screens/agentic-ai/AgenticAIScreen';
 import { NetworkScreen } from './screens/network/NetworkScreen';
 import { SchemesScreen } from './screens/schemes/SchemesScreen';
-import { SchemeDiscoveryScreen } from './screens/schemes/SchemeDiscoveryScreen';
 import { SchemeDetailScreen } from './screens/schemes/SchemeDetailScreen';
 import { ToolsScreen } from './screens/tools/ToolsScreen';
 
@@ -76,8 +69,6 @@ function AppContent() {
   const [selectedScheme, setSelectedScheme] = useState<Scheme | null>(null);
   const [schemeAnswers, setSchemeAnswers] = useState<SchemeDiscoveryAnswers>({});
   const [scorecardData, setScorecardData] = useState<ScorecardData>(() => getMockScorecardData(language));
-  const [commonAnswers, setCommonAnswers] = useState<Record<string, string>>({});
-  const [adaptiveAnswers, setAdaptiveAnswers] = useState<Record<string, string>>({});
 
   useEffect(() => {
     setScorecardData((prev) => ({
@@ -100,15 +91,6 @@ function AppContent() {
       case 'splash':
         return <SplashScreen onDone={() => setScreen('login')} />;
 
-      case 'language':
-        return (
-          <LanguageScreen
-            onNext={() => {
-              setUser((prev) => ({ ...prev, language }));
-              setScreen('login');
-            }}
-          />
-        );
 
       case 'login':
         return (
@@ -146,43 +128,7 @@ function AppContent() {
         return (
           <LocationScreen
             location={`${user.location}, ${user.state}`}
-            onNext={() => setScreen('mode')}
-            onBack={goBack}
-          />
-        );
-
-      case 'mode':
-        return (
-          <ModeScreen
-            currentMode={mode}
-            setMode={setMode}
-            onNext={() => setScreen('businessSelect')}
-            onBack={goBack}
-          />
-        );
-
-      case 'businessSelect':
-        return (
-          <BusinessSelectionScreen
-            currentCategory={business.category}
-            mode={mode}
-            onNext={({ category, name, capital, sampleDump }) => {
-              setUserEditedBusiness(true);
-              setBusiness((prev) => ({
-                ...prev,
-                category,
-                name: name || prev.name,
-                brainDumpText: sampleDump || prev.brainDumpText,
-                availableCapital: capital || prev.availableCapital,
-              }));
-              if (capital) {
-                setFinancialInputs((prev) => ({
-                  ...prev,
-                  ownContribution: capital,
-                }));
-              }
-              setScreen('brainDump');
-            }}
+            onNext={() => setScreen('brainDump')}
             onBack={goBack}
           />
         );
@@ -196,88 +142,8 @@ function AppContent() {
             onNext={(text) => {
               setUserEditedBusiness(true);
               setBusiness((prev) => ({ ...prev, brainDumpText: text }));
-              setScreen('teaser');
+              setScreen('heard');
             }}
-            onBack={goBack}
-          />
-        );
-
-      case 'teaser':
-        return (
-          <BusinessTeaserScreen
-            business={business}
-            mode={mode}
-            onNext={() => setScreen('commonQuestions')}
-            onBack={goBack}
-          />
-        );
-
-      // ── Questionnaires (5 Common + 5 Adaptive) ──
-      case 'commonQuestions':
-        return (
-          <CommonQuestionnaireScreen
-            mode={mode}
-            initialAnswers={commonAnswers}
-            onNext={(answers) => {
-              setCommonAnswers(answers);
-              if (answers.q_capital) {
-                const capNum = parseInt(answers.q_capital, 10);
-                if (!isNaN(capNum)) {
-                  setFinancialInputs((prev) => ({
-                    ...prev,
-                    ownContribution: capNum,
-                  }));
-                  setBusiness((prev) => ({
-                    ...prev,
-                    availableCapital: capNum,
-                  }));
-                }
-              }
-              if (answers.q_funding) {
-                const fundNum = parseInt(answers.q_funding, 10);
-                if (!isNaN(fundNum)) {
-                  setFinancialInputs((prev) => ({
-                    ...prev,
-                    loanAmount: fundNum,
-                    totalProjectCost: (prev.ownContribution || 50000) + fundNum,
-                  }));
-                }
-              }
-              setScreen('adaptiveQuestions');
-            }}
-            onBack={goBack}
-          />
-        );
-
-      case 'adaptiveQuestions':
-        return (
-          <AdaptiveQuestionnaireScreen
-            category={business.category || 'dairy'}
-            brainDumpText={business.brainDumpText}
-            commonAnswers={commonAnswers}
-            initialAnswers={adaptiveAnswers}
-            mode={mode}
-            onNext={(answers) => {
-              setAdaptiveAnswers(answers);
-              setScreen('schemesRecom');
-            }}
-            onBack={goBack}
-          />
-        );
-
-      // ── Recommended Schemes (with Women Empowerment section) ──
-      case 'schemesRecom':
-        return (
-          <SchemesRecommendationScreen
-            user={user}
-            business={business}
-            commonAnswers={commonAnswers}
-            adaptiveAnswers={adaptiveAnswers}
-            mode={mode}
-            onSchemeSelect={(scheme) => {
-              setSelectedScheme(scheme);
-            }}
-            onNext={() => setScreen('processing')}
             onBack={goBack}
           />
         );
@@ -292,8 +158,50 @@ function AppContent() {
                 setUserEditedBusiness(true);
                 setBusiness((prev) => ({ ...prev, ...updated }));
               }
-              setScreen('score');
+              setScreen('teaserProcessing');
             }}
+            onBack={goBack}
+          />
+        );
+
+      case 'teaserProcessing':
+        return (
+          <ProcessingScreen
+            customSteps={[
+              'Analyzing constraints',
+              'Assessing feasibility',
+              'Generating business opportunity'
+            ]}
+            onComplete={() => setScreen('teaser')}
+          />
+        );
+
+      case 'teaser':
+        return (
+          <BusinessTeaserScreen
+            business={business}
+            mode={mode}
+            onNext={() => setScreen('commonQuestions')}
+            onBack={goBack}
+          />
+        );
+
+      case 'commonQuestions':
+        return (
+          <CommonQuestionnaireScreen
+            business={business}
+            mode={mode}
+            onNext={() => setScreen('adaptiveQuestions')}
+            onBack={goBack}
+          />
+        );
+
+      case 'adaptiveQuestions':
+        return (
+          <AdaptiveQuestionnaireScreen
+            category={business.category || 'dairy'}
+            mode={mode}
+            onNext={() => setScreen('score')}
             onBack={goBack}
           />
         );
@@ -302,42 +210,8 @@ function AppContent() {
         return (
           <ScoreScreen
             mode={mode}
-            onNext={() => setScreen('wizard-loading')}
-            onBack={goBack}
-          />
-        );
-      case 'wizard-loading':
-        return (
-          <ProcessingScreen
-            onComplete={() => setScreen('wizard')}
-            customSteps={[
-              'Saving profile context',
-              'Analyzing location dynamics',
-              'Determining required inputs',
-              'Preparing adaptive questions',
-            ]}
-          />
-        );
-
-      case 'wizard':
-        return (
-          <WizardScreen
-            mode={mode}
-            onNext={(answers) => {
-              if (answers.rent) {
-                const rentNum = parseInt(answers.rent, 10);
-                if (!isNaN(rentNum)) {
-                  setFinancialInputs((prev) => ({ ...prev, monthlyRent: rentNum }));
-                }
-              }
-              if (answers.pricing && answers.pricing !== 'unknown') {
-                const priceNum = parseInt(answers.pricing, 10);
-                if (!isNaN(priceNum)) {
-                  setFinancialInputs((prev) => ({ ...prev, pricePerUnit: priceNum }));
-                }
-              }
-              setScreen('processing');
-            }}
+            setScreen={setScreen}
+            onNext={() => setScreen('processing')}
             onBack={goBack}
           />
         );
@@ -360,7 +234,7 @@ function AppContent() {
           />
         );
 
-      // ── Main Dashboard ──
+      // ── Main Dashboard (now accessible via "Tools" tab) ──
       case 'dashboard':
         return (
           <DashboardScreen
@@ -372,7 +246,7 @@ function AppContent() {
           />
         );
 
-      // ── Reports Tab ──
+      // ── Reports Tab (now accessible via "Dashboard" tab) ──
       case 'reports':
         return (
           <ReportsScreen
@@ -390,6 +264,7 @@ function AppContent() {
         return (
           <FinancialReportScreen
             financialInputs={financialInputs}
+            setFinancialInputs={setFinancialInputs}
             mode={mode}
             setScreen={setScreen}
             onBack={goBack}
@@ -465,26 +340,15 @@ function AppContent() {
           />
         );
 
-      // ── Schemes (kept for back-compat but not in primary flow) ──
+      // ── Schemes ──
       case 'schemes':
         return (
           <SchemesScreen
             business={business}
+            financialInputs={financialInputs}
             mode={mode}
             setScreen={setScreen}
             onSchemeSelect={setSelectedScheme}
-          />
-        );
-
-      case 'schemeDiscovery':
-        return (
-          <SchemeDiscoveryScreen
-            mode={mode}
-            onComplete={(ans) => {
-               setSchemeAnswers(ans);
-               setScreen('schemes');
-            }}
-            onBack={goBack}
           />
         );
 
@@ -504,15 +368,6 @@ function AppContent() {
           <ToolsScreen
             mode={mode}
             setScreen={setScreen}
-          />
-        );
-
-      case 'agenticAI':
-        return (
-          <AgenticAIScreen
-            mode={mode}
-            setScreen={setScreen}
-            onBack={goBack}
           />
         );
 

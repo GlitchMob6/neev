@@ -4,7 +4,7 @@ export const mockFinancialInputs: FinancialInputs = {
   totalProjectCost: 140000,          // ₹1,40,000 (Microfinance threshold)
   ownContribution: 14000,            // ₹14,000 (10% margin)
   loanAmount: 126000,                // ₹1,26,000 (90% loan)
-  interestRate: 6,                   // 6% annual (Microfinance)
+  interestRate: 6.5,                  // 6.5% annual (Microfinance)
   loanTenureMonths: 36,              // 3 years (36 months)
   moratoriumMonths: 3,               // 3 months grace
   monthlyRent: 5000,                 // ₹5,000 / month

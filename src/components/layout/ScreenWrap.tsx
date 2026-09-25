@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import { TopBar } from '../navigation/TopBar';
 import { BottomNav } from '../navigation/BottomNav';
-import { LanguageControl } from '../navigation/LanguageControl';
 import { FloatingAssistant } from '../assistant/FloatingAssistant';
 import { AssistantBanner } from '../assistant/AssistantBanner';
 import type { Screen, Mode } from '../../types';
@@ -46,7 +45,7 @@ export function ScreenWrap({
   return (
     <div className="relative flex flex-col h-full w-full overflow-hidden" style={{ background: C.cream }}>
       {/* Top Bar */}
-      {showTopBar ? (
+      {showTopBar && (
         <TopBar
           onBack={onBack}
           title={title}
@@ -55,10 +54,6 @@ export function ScreenWrap({
           mode={mode}
           onModeClick={setScreen ? () => setScreen('mode') : undefined}
         />
-      ) : (
-        <div className="absolute top-4 right-4 z-30">
-          <LanguageControl />
-        </div>
       )}
 
       {/* Main Content Area */}

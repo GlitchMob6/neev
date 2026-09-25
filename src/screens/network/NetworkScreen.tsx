@@ -20,7 +20,7 @@ export function NetworkScreen({
       onBack={onBack}
       mode={mode}
       showNav={true}
-      navScreen="dashboard"
+      navScreen="tools"
       setScreen={setScreen}
     >
       <div className="flex flex-col items-center text-center gap-5 pt-4 pb-6">

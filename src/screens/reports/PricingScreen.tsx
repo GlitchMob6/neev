@@ -20,7 +20,7 @@ export function PricingScreen({
       onBack={onBack}
       mode={mode}
       showNav={true}
-      navScreen="reports"
+      navScreen="tools"
       setScreen={setScreen}
       assistantMessage={
         t('assistant.pricing') ||
@@ -95,9 +95,10 @@ export function PricingScreen({
 
         <div className="pt-2">
           <Button
-            label={t('pricing.seeInsight') || "See Neev's reading"}
-            onClick={() => setScreen('insight')}
-            icon="→"
+            label={t('common.backToTools') || 'Back to Tools'}
+            onClick={() => setScreen('tools')}
+            icon="←"
+            variant="secondary"
           />
         </div>
       </div>

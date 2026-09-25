@@ -21,7 +21,7 @@ export function InsightScreen({
       onBack={onBack}
       mode={mode}
       showNav={true}
-      navScreen="reports"
+      navScreen="tools"
       setScreen={setScreen}
       assistantMessage={
         t('assistant.insight') ||
@@ -100,9 +100,10 @@ export function InsightScreen({
 
         <div className="pt-2">
           <Button
-            label={t('insight.backToReports') || 'View all reports & downloads'}
-            onClick={() => setScreen('reports')}
-            icon="→"
+            label={t('common.backToTools') || 'Back to Tools'}
+            onClick={() => setScreen('tools')}
+            icon="←"
+            variant="secondary"
           />
         </div>
       </div>

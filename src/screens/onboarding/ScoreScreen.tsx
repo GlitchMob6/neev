@@ -1,17 +1,19 @@
 import { ScreenWrap } from '../../components/layout/ScreenWrap';
 import { Button, Card, C } from '../../components/ui';
 import { useLocalization } from '../../i18n';
-import type { Mode } from '../../types';
+import type { Mode, Screen } from '../../types';
 import { Info, Sparkles } from 'lucide-react';
 
 export function ScoreScreen({
   onNext,
   onBack,
   mode = 'assisted',
+  setScreen,
 }: {
   onNext: () => void;
   onBack: () => void;
   mode?: Mode;
+  setScreen?: (s: Screen) => void;
 }) {
   const { t } = useLocalization();
 
@@ -19,6 +21,8 @@ export function ScoreScreen({
     <ScreenWrap
       onBack={onBack}
       mode={mode}
+      showNav={Boolean(setScreen)}
+      setScreen={setScreen}
       assistantMessage={t('assistant.score') || 'These numbers are estimates, not guarantees.'}
     >
       <div className="flex flex-col gap-5 pt-2 pb-6">
@@ -64,8 +68,8 @@ export function ScoreScreen({
               color: C.teal,
             },
             {
-              label: t('score.loanFit') || 'Loan fit',
-              value: t('score.loanFitVal') || 'Good',
+              label: t('score.viability') || 'Viability',
+              value: t('score.viabilityVal') || 'Good',
               color: C.primary,
             },
             {
@@ -101,13 +105,13 @@ export function ScoreScreen({
           <p className="text-xs text-[#8B6914] leading-relaxed">
             <strong>{t('score.earlyEstimate') || 'Early estimate'}</strong>{' '}
             {t('score.disclaimer') ||
-              'based on category-level averages. Answer a few quick questions to personalize this.'}
+              'based on category-level averages. Explore the full scorecard for detailed assessment.'}
           </p>
         </div>
 
         <div className="pt-2">
           <Button
-            label={t('score.answerQuestions') || 'Answer a few questions'}
+            label={t('score.viewScorecard') || 'View Full Scorecard'}
             onClick={onNext}
             icon="→"
           />
