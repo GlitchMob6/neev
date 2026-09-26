@@ -152,7 +152,7 @@ export function AdaptiveQuestionnaireScreen({
             <span>
               {step < adaptiveQuestions.length - 1
                 ? t('wizard.next') || 'Next'
-                : t('q.proceedToSchemes') || 'View Matched Schemes & Loans'}
+                : t('wizard.generateScorecard') || 'Generate Business Scorecard'}
             </span>
             <span className="text-lg leading-none">→</span>
           </button>
