@@ -103,9 +103,6 @@ export function FloatingAssistant({
           onClick={() => {
             const next = !open;
             setOpen(next);
-            if (next && mode === 'assisted') {
-              handleSpeech();
-            }
           }}
           className="rounded-full flex items-center justify-center transition-all active:scale-90 cursor-pointer hover:scale-105 shadow-lg relative"
           style={{

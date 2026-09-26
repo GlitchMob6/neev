@@ -3,7 +3,7 @@ export type OnboardingScreen =
   | 'splash' | 'login' | 'otp' | 'idCreation' | 'location' | 'language' | 'mode' | 'businessSelect';
 
 export type CoreScreen =
-  | 'brainDump' | 'teaser' | 'commonQuestions' | 'adaptiveQuestions' | 'schemesRecom' | 'heard' | 'score' | 'wizard-loading' | 'wizard' | 'processing' | 'scorecard';
+  | 'brainDump' | 'teaser' | 'commonQuestions' | 'adaptiveQuestions' | 'schemesRecom' | 'heard' | 'score' | 'wizard-loading' | 'wizard' | 'processing' | 'scorecard' | 'teaserProcessing';
 
 export type MainScreen =
   | 'dashboard' | 'tools' | 'reports' | 'settings' | 'profile';

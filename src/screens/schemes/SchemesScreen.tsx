@@ -11,11 +11,11 @@ import type { Screen, Mode, Scheme, Business, FinancialInputs } from '../../type
 import { Award, Info, Calendar, Percent, Clock } from 'lucide-react';
 
 export function SchemesScreen({
-  business,
+  business: _business,
   financialInputs,
   mode,
   setScreen,
-  onSchemeSelect,
+  onSchemeSelect: _onSchemeSelect,
 }: {
   business?: Business;
   financialInputs?: FinancialInputs;

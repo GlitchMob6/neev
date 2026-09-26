@@ -12,12 +12,13 @@ import { getMockScorecardData } from './data/mockScorecard';
 import { SplashScreen } from './screens/onboarding/SplashScreen';
 import { LoginScreen } from './screens/onboarding/LoginScreen';
 import { OtpScreen } from './screens/onboarding/OtpScreen';
+import { LanguageScreen } from './screens/onboarding/LanguageScreen';
 import { IdCreationScreen } from './screens/onboarding/IdCreationScreen';
 import { LocationScreen } from './screens/onboarding/LocationScreen';
 import { BrainDumpScreen } from './screens/onboarding/BrainDumpScreen';
 import { BusinessTeaserScreen } from './screens/teaser/BusinessTeaserScreen';
 import { HeardScreen } from './screens/onboarding/HeardScreen';
-import { ScoreScreen } from './screens/onboarding/ScoreScreen';
+
 import { CommonQuestionnaireScreen } from './screens/questionnaire/CommonQuestionnaireScreen';
 import { AdaptiveQuestionnaireScreen } from './screens/questionnaire/AdaptiveQuestionnaireScreen';
 import { ProcessingScreen } from './screens/scorecard/ProcessingScreen';
@@ -67,7 +68,7 @@ function AppContent() {
   const [financialInputs, setFinancialInputs] = useState<FinancialInputs>(mockFinancialInputs);
   const [userEditedBusiness, setUserEditedBusiness] = useState(false);
   const [selectedScheme, setSelectedScheme] = useState<Scheme | null>(null);
-  const [schemeAnswers, setSchemeAnswers] = useState<SchemeDiscoveryAnswers>({});
+  const [schemeAnswers, _setSchemeAnswers] = useState<SchemeDiscoveryAnswers>({});
   const [scorecardData, setScorecardData] = useState<ScorecardData>(() => getMockScorecardData(language));
 
   useEffect(() => {
@@ -91,7 +92,6 @@ function AppContent() {
       case 'splash':
         return <SplashScreen onDone={() => setScreen('login')} />;
 
-
       case 'login':
         return (
           <LoginScreen
@@ -107,11 +107,19 @@ function AppContent() {
         return (
           <OtpScreen
             phone={user.phone}
-            onNext={() => setScreen('idCreation')}
+            onNext={() => setScreen('language')}
             onBack={goBack}
           />
         );
 
+      case 'language':
+        return (
+          <LanguageScreen
+            onNext={() => {
+              setScreen('idCreation');
+            }}
+          />
+        );
       case 'idCreation':
         return (
           <IdCreationScreen
@@ -189,7 +197,6 @@ function AppContent() {
       case 'commonQuestions':
         return (
           <CommonQuestionnaireScreen
-            business={business}
             mode={mode}
             onNext={() => setScreen('adaptiveQuestions')}
             onBack={goBack}
@@ -201,16 +208,6 @@ function AppContent() {
           <AdaptiveQuestionnaireScreen
             category={business.category || 'dairy'}
             mode={mode}
-            onNext={() => setScreen('score')}
-            onBack={goBack}
-          />
-        );
-
-      case 'score':
-        return (
-          <ScoreScreen
-            mode={mode}
-            setScreen={setScreen}
             onNext={() => setScreen('processing')}
             onBack={goBack}
           />

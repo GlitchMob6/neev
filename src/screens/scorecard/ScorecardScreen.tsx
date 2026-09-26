@@ -9,7 +9,7 @@ import {
   calculateMarginAndLoan,
 } from '../../utils/financialCalculations';
 import type { Mode, Screen, ScorecardData, FinancialInputs } from '../../types';
-import { Sparkles, TrendingUp, Target, CreditCard, FileText } from 'lucide-react';
+import { Sparkles, TrendingUp, Target, FileText } from 'lucide-react';
 
 // ─── Animated Counter Hook ───────────────────────────────────────────────────
 function useCountUp(target: number, duration: number = 1200, enabled: boolean = true) {
