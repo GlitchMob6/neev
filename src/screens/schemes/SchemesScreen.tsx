@@ -7,10 +7,10 @@ import type { Screen, Mode, Scheme, Business } from '../../types';
 import { Search, ChevronRight } from 'lucide-react';
 
 export function SchemesScreen({
-  business,
+  business: _business,
   mode,
   setScreen,
-  onSchemeSelect,
+  onSchemeSelect: _onSchemeSelect,
 }: {
   business?: Business;
   mode?: Mode;
@@ -21,7 +21,7 @@ export function SchemesScreen({
   const [searchQuery, setSearchQuery] = useState('');
   
   // Seeded demo business check
-  const isDemoDairy = business?.location === 'Nashik' && (business?.category?.includes('Dairy') || business?.category?.includes('डेयरी') || business?.category?.includes('डेअरी'));
+  const isDemoDairy = _business?.location === 'Nashik' && (_business?.category?.includes('Dairy') || _business?.category?.includes('डेयरी') || _business?.category?.includes('डेअरी'));
   const pmmyScheme = mockSchemes.find(s => s.id === 'pm-mudra');
 
   return (
@@ -87,7 +87,7 @@ export function SchemesScreen({
             </div>
             <button 
               onClick={() => {
-                onSchemeSelect(pmmyScheme);
+                _onSchemeSelect(pmmyScheme);
                 setScreen('schemeDetail');
               }}
               className="flex flex-col gap-2 rounded-3xl p-4 text-left transition-all active:scale-98 bg-white cursor-pointer shadow-md"
@@ -129,7 +129,7 @@ export function SchemesScreen({
                <button 
                  key={scheme.id}
                  onClick={() => {
-                   onSchemeSelect(scheme);
+                   _onSchemeSelect(scheme);
                    setScreen('schemeDetail');
                  }}
                  className="flex flex-col gap-2 rounded-3xl p-4 text-left transition-all active:scale-98 bg-white cursor-pointer hover:shadow-md"

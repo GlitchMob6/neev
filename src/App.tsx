@@ -18,7 +18,7 @@ import { LanguageScreen } from './screens/onboarding/LanguageScreen';
 import { ModeScreen } from './screens/onboarding/ModeScreen';
 import { BrainDumpScreen } from './screens/onboarding/BrainDumpScreen';
 import { HeardScreen } from './screens/onboarding/HeardScreen';
-import { ScoreScreen } from './screens/onboarding/ScoreScreen';
+
 import { WizardScreen } from './screens/wizard/WizardScreen';
 import { ProcessingScreen } from './screens/scorecard/ProcessingScreen';
 import { ScorecardScreen } from './screens/scorecard/ScorecardScreen';
@@ -68,7 +68,7 @@ function AppContent() {
   const [financialInputs, setFinancialInputs] = useState<FinancialInputs>(mockFinancialInputs);
   const [userEditedBusiness, setUserEditedBusiness] = useState(false);
   const [selectedScheme, setSelectedScheme] = useState<Scheme | null>(null);
-  const [schemeAnswers, setSchemeAnswers] = useState<SchemeDiscoveryAnswers>({});
+  const [schemeAnswers, _setSchemeAnswers] = useState<SchemeDiscoveryAnswers>({});
   const [scorecardData, setScorecardData] = useState<ScorecardData>(() => getMockScorecardData(language));
   const [loanSelected, setLoanSelected] = useState(false);
 
@@ -91,17 +91,7 @@ function AppContent() {
     switch (screen) {
       // ── Onboarding ──
       case 'splash':
-        return <SplashScreen onDone={() => setScreen('language')} />;
-
-      case 'language':
-        return (
-          <LanguageScreen
-            onNext={() => {
-              setUser((prev) => ({ ...prev, language }));
-              setScreen('login');
-            }}
-          />
-        );
+        return <SplashScreen onDone={() => setScreen('login')} />;
 
       case 'login':
         return (
@@ -118,8 +108,18 @@ function AppContent() {
         return (
           <OtpScreen
             phone={user.phone}
-            onNext={() => setScreen('idCreation')}
+            onNext={() => setScreen('language')}
             onBack={goBack}
+          />
+        );
+
+      case 'language':
+        return (
+          <LanguageScreen
+            onNext={() => {
+              setUser((prev) => ({ ...prev, language }));
+              setScreen('idCreation');
+            }}
           />
         );
 
@@ -179,20 +179,12 @@ function AppContent() {
                 setUserEditedBusiness(true);
                 setBusiness((prev) => ({ ...prev, ...updated }));
               }
-              setScreen('score');
+              setScreen('wizard-loading');
             }}
             onBack={goBack}
           />
         );
 
-      case 'score':
-        return (
-          <ScoreScreen
-            mode={mode}
-            onNext={() => setScreen('wizard-loading')}
-            onBack={goBack}
-          />
-        );
       case 'wizard-loading':
         return (
           <ProcessingScreen
@@ -372,7 +364,7 @@ function AppContent() {
           <SchemeDiscoveryScreen
             mode={mode}
             onComplete={(ans) => {
-               setSchemeAnswers(ans);
+               _setSchemeAnswers(ans);
                setScreen('schemes');
             }}
             onBack={goBack}

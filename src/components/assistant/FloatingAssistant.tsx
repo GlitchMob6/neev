@@ -54,7 +54,6 @@ export function FloatingAssistant({
         <button
           onClick={() => {
             setOpen(!open);
-            if (!open && onSpeak) onSpeak();
           }}
           className="rounded-full shadow-2xl flex items-center justify-center transition-all active:scale-95 cursor-pointer hover:scale-105"
           style={{
