@@ -9,12 +9,15 @@ import {
   Tag,
   ShieldAlert,
   Receipt,
+  FileText,
+  Megaphone,
 } from 'lucide-react';
 
 export interface ToolItem {
   id: string;
   nameKey: string;
   defaultName: string;
+  description?: string;
   icon: React.ReactNode;
   iconBg: string;
   screen?: Screen;
@@ -34,9 +37,19 @@ export function ToolsGrid({
 
   const tools: ToolItem[] = [
     {
+      id: 'report',
+      nameKey: 'tool.report',
+      defaultName: 'Report',
+      description: 'Feasibility & analysis',
+      icon: <FileText size={24} className="text-white" />,
+      iconBg: C.primary,
+      screen: 'reports',
+    },
+    {
       id: 'financial',
       nameKey: 'tool.financial',
       defaultName: 'Financial',
+      description: 'Analysis & cash flow',
       icon: <FileSpreadsheet size={24} className="text-white" />,
       iconBg: C.teal,
       screen: 'financialReport',
@@ -45,23 +58,16 @@ export function ToolsGrid({
       id: 'market',
       nameKey: 'tool.market',
       defaultName: 'Market',
+      description: 'Demand & rivals',
       icon: <MapPin size={24} className="text-white" />,
       iconBg: C.gold,
       screen: 'market',
     },
     {
-      id: 'network',
-      nameKey: 'tool.network',
-      defaultName: 'Network',
-      icon: <Users size={24} className="text-white" />,
-      iconBg: '#8B6BB5',
-      screen: 'network',
-      comingSoon: true,
-    },
-    {
       id: 'schemes',
       nameKey: 'tool.schemes',
       defaultName: 'Schemes',
+      description: 'Govt subsidies & loans',
       icon: <Award size={24} className="text-white" />,
       iconBg: '#2E7D32',
       screen: 'schemes',
@@ -70,6 +76,7 @@ export function ToolsGrid({
       id: 'pricing',
       nameKey: 'tool.pricing',
       defaultName: 'Pricing',
+      description: 'Unit margins',
       icon: <Tag size={24} className="text-white" />,
       iconBg: '#E65100',
       screen: 'pricing',
@@ -78,6 +85,7 @@ export function ToolsGrid({
       id: 'swot',
       nameKey: 'tool.swot',
       defaultName: 'SWOT',
+      description: 'Strengths & risks',
       icon: <ShieldAlert size={24} className="text-white" />,
       iconBg: '#00838F',
       screen: 'swot',
@@ -85,11 +93,31 @@ export function ToolsGrid({
     {
       id: 'invoice',
       nameKey: 'tool.invoice',
-      defaultName: 'Invoicing',
+      defaultName: 'Invoice',
+      description: 'Manage billing & receipts',
       icon: <Receipt size={24} className="text-white" />,
       iconBg: '#4A7B6B',
       comingSoon: true,
       onClick: onOpenInvoice ? onOpenInvoice : undefined,
+    },
+    {
+      id: 'marketing',
+      nameKey: 'tool.marketing',
+      defaultName: 'Marketing',
+      description: 'Promote your business',
+      icon: <Megaphone size={24} className="text-white" />,
+      iconBg: '#D97706',
+      comingSoon: true,
+    },
+    {
+      id: 'network',
+      nameKey: 'tool.network',
+      defaultName: 'Network',
+      description: 'Connect with business support',
+      icon: <Users size={24} className="text-white" />,
+      iconBg: '#8B6BB5',
+      screen: 'network',
+      comingSoon: true,
     },
   ];
 
@@ -110,8 +138,8 @@ export function ToolsGrid({
               setScreen(tool.screen);
             }
           }}
-          className="rounded-2xl p-3 flex flex-col items-center justify-center text-center bg-white border transition-all active:scale-95 cursor-pointer shadow-2xs hover:shadow-xs relative"
-          style={{ borderColor: C.border, minHeight: 96 }}
+          className="rounded-2xl p-2.5 flex flex-col items-center justify-center text-center bg-white border transition-all active:scale-95 cursor-pointer shadow-2xs hover:shadow-xs relative"
+          style={{ borderColor: C.border, minHeight: 104 }}
         >
           {tool.comingSoon && (
             <span
@@ -132,6 +160,11 @@ export function ToolsGrid({
           <span className="font-display font-bold text-xs text-charcoal leading-tight truncate w-full">
             {t(tool.nameKey) || tool.defaultName}
           </span>
+          {tool.description && (
+            <span className="text-[10px] text-muted leading-tight mt-0.5 line-clamp-1 w-full">
+              {tool.description}
+            </span>
+          )}
         </button>
       ))}
     </div>

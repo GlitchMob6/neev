@@ -6,17 +6,21 @@ import { useFinancialEngine } from '../../hooks/useFinancialEngine';
 import { formatCurrency } from '../../utils/formatters';
 import { downloadFinancialEngine } from '../../utils/download';
 import { FileSpreadsheet, Edit2, Check } from 'lucide-react';
-import type { Screen, Mode, FinancialInputs } from '../../types';
+import type { Screen, Mode, FinancialInputs, Business, User } from '../../types';
 
 export function FinancialReportScreen({
   financialInputs,
   setFinancialInputs,
+  business,
+  user,
   mode = 'assisted',
   setScreen,
   onBack,
 }: {
   financialInputs: FinancialInputs;
   setFinancialInputs?: (fn: (prev: FinancialInputs) => FinancialInputs) => void;
+  business?: Business;
+  user?: User;
   mode?: Mode;
   setScreen: (s: Screen) => void;
   onBack: () => void;
@@ -72,7 +76,7 @@ export function FinancialReportScreen({
   const outputs = useFinancialEngine(financialInputs);
 
   const handleDownloadExcel = () => {
-    downloadFinancialEngine(financialInputs, outputs, 'Enterprise Financial Analysis');
+    downloadFinancialEngine(financialInputs, outputs, business || 'Enterprise Financial Analysis', user);
   };
 
   const cards = [

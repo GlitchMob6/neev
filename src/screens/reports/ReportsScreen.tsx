@@ -10,7 +10,7 @@ import {
   calculateMarginAndLoan,
   calculateEMI,
 } from '../../utils/financialCalculations';
-import type { Screen, Mode, Business, FinancialInputs, ScorecardData } from '../../types';
+import type { Screen, Mode, Business, FinancialInputs, ScorecardData, User } from '../../types';
 import {
   Download,
   FileSpreadsheet,
@@ -25,6 +25,7 @@ export function ReportsScreen({
   business,
   financialInputs,
   scorecardData,
+  user,
   mode = 'assisted',
   setScreen,
   loanSelected = false,
@@ -33,6 +34,7 @@ export function ReportsScreen({
   business: Business;
   financialInputs: FinancialInputs;
   scorecardData?: ScorecardData;
+  user?: User;
   mode?: Mode;
   setScreen: (s: Screen) => void;
   loanSelected?: boolean;
@@ -45,11 +47,11 @@ export function ReportsScreen({
   const emi = scheme ? calculateEMI(loanAmount, scheme.interestRate, scheme.tenureMonths - scheme.moratoriumMonths) : 0;
 
   const handleDownloadEngine = () => {
-    downloadFinancialEngine(financialInputs, outputs, business.name || 'Milk Collection Center');
+    downloadFinancialEngine(financialInputs, outputs, business, user);
   };
 
   const handleDownloadReport = () => {
-    downloadReportPDF(business, financialInputs, outputs);
+    downloadReportPDF(business, financialInputs, outputs, user, scorecardData);
   };
 
   return (

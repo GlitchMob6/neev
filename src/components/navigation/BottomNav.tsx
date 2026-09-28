@@ -12,23 +12,23 @@ export function BottomNav({
 }) {
   const { t } = useLocalization();
 
-  // Determine active tab — Tools is the default/catch-all
+  // Determine active tab
   const isSettings = currentScreen === 'settings' || currentScreen === 'profile';
-  const isDashboard = currentScreen === 'reports';
-  const isTools = !isSettings && !isDashboard;
+  const isTools = currentScreen === 'reports';
+  const isDashboard = !isSettings && !isTools;
 
   const tabs = [
     {
-      id: 'dashboard' as Screen, // navigates to 'dashboard' screen (business overview + tools grid)
-      label: t('nav.tools') || 'Tools',
-      icon: Wrench,
-      active: isTools,
-    },
-    {
-      id: 'reports' as Screen, // navigates to 'reports' screen (business report)
+      id: 'dashboard' as Screen,
       label: t('nav.home') || 'Dashboard',
       icon: LayoutDashboard,
       active: isDashboard,
+    },
+    {
+      id: 'reports' as Screen,
+      label: t('nav.tools') || 'Tools',
+      icon: Wrench,
+      active: isTools,
     },
     {
       id: 'settings' as Screen,

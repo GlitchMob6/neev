@@ -15,6 +15,7 @@ import { OtpScreen } from './screens/onboarding/OtpScreen';
 import { LanguageScreen } from './screens/onboarding/LanguageScreen';
 import { IdCreationScreen } from './screens/onboarding/IdCreationScreen';
 import { LocationScreen } from './screens/onboarding/LocationScreen';
+import { BusinessSelectionScreen } from './screens/onboarding/BusinessSelectionScreen';
 import { BrainDumpScreen } from './screens/onboarding/BrainDumpScreen';
 import { BusinessTeaserScreen } from './screens/teaser/BusinessTeaserScreen';
 import { HeardScreen } from './screens/onboarding/HeardScreen';
@@ -136,7 +137,32 @@ function AppContent() {
         return (
           <LocationScreen
             location={`${user.location}, ${user.state}`}
-            onNext={() => setScreen('brainDump')}
+            onNext={() => setScreen('businessSelect')}
+            onBack={goBack}
+          />
+        );
+
+      case 'businessSelect':
+        return (
+          <BusinessSelectionScreen
+            currentCategory={business.category}
+            mode={mode}
+            onNext={({ category, name, capital, sampleDump }) => {
+              setUserEditedBusiness(true);
+              setBusiness((prev) => ({
+                ...prev,
+                category,
+                name,
+                availableCapital: capital,
+                potentialBusiness: name,
+                brainDumpText: sampleDump,
+              }));
+              setFinancialInputs((prev) => ({
+                ...prev,
+                ownContribution: capital,
+              }));
+              setScreen('brainDump');
+            }}
             onBack={goBack}
           />
         );
@@ -231,7 +257,7 @@ function AppContent() {
           />
         );
 
-      // ── Main Dashboard (now accessible via "Tools" tab) ──
+      // ── Main Dashboard (now accessible via "Dashboard" tab) ──
       case 'dashboard':
         return (
           <DashboardScreen
@@ -243,13 +269,14 @@ function AppContent() {
           />
         );
 
-      // ── Reports Tab (now accessible via "Dashboard" tab) ──
+      // ── Reports / Analysis Screen (now accessible via "Tools" tab) ──
       case 'reports':
         return (
           <ReportsScreen
             business={business}
             financialInputs={financialInputs}
             scorecardData={scorecardData}
+            user={user}
             mode={mode}
             setScreen={setScreen}
             loanSelected={Boolean(financialInputs.loanAmount && financialInputs.loanAmount > 0)}
@@ -262,6 +289,8 @@ function AppContent() {
           <FinancialReportScreen
             financialInputs={financialInputs}
             setFinancialInputs={setFinancialInputs}
+            business={business}
+            user={user}
             mode={mode}
             setScreen={setScreen}
             onBack={goBack}
@@ -319,6 +348,11 @@ function AppContent() {
         return (
           <SettingsScreen
             user={user}
+            setUser={setUser}
+            business={business}
+            setBusiness={setBusiness}
+            setUserEditedBusiness={setUserEditedBusiness}
+            setFinancialInputs={setFinancialInputs}
             mode={mode}
             setMode={setMode}
             setScreen={setScreen}
